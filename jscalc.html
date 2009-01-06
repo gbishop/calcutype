@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Calcutype:  Write your own document</title>
+
+<style type="text/css">
+
+table { margin-left: 2%;
+ margin-right:auto;
+ border-collapse:collapse;
+ border: solid #000000 1px;
+ }
+tr { border: solid #000000 1px;
+ }
+a { text-decoration: none;
+ font-family: "Lucida Console", monospace, Arial, Helvetica, sans-serif;
+ text-align: center;
+ font-weight: bold;
+ }
+textarea { font-size: 30px;
+ font-weight:bold;
+ font-family: Arial, Helvetica, sans-serif;
+ border: solid #ffffff 3px;
+  }
+</style>
+
+     <!-- Uncomment the following code to include Firebug Lite, designed for IE. -->
+<!--    <script type='text/javascript'   src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script> -->
+         
+
+<script type="text/javascript" src="files/common.js"></script>
+<script type="text/javascript" src="files/Gutenberg 10,000.js"></script>
+<script type="text/javascript">
+<!--
+var focused;
+var typer = document;
+var overtype = true;
+var memkey = 0;
+var caplock = true;
+var MAX_ARRAY_LENGTH = 10;
+var Alphabet = ABC;
+//var frequent = new Array(); //frequency table is imported from external file at top
+var repeat = 2;
+var currentIndex = 0; //start with first member of arrayGroup highlighted
+
+//The keyboard row that's different...
+var punct = new Array('[<img src="files/resultset_previous.png" alt="retreat one letter" />',
+ '[<img src="files/resultset_next.png" alt="advance one letter" />',
+ '[<img src="files/resultset_first.png" alt="retreat one word" />', 
+ '[<img src="files/resultset_last.png" alt="advance one word" />', 
+'.', ',', '?', '"', '`', '!', ':', '$');
+
+var funct = new Array('[&para;', '[<img src="files/drive_disk.png" alt="save" />',
+ '[<img src="files/alpha.png" alt="cap" />', '[&laquo;]','[&laquo;w]');
+ var intarea = false;
+
+var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
+
+//Here comes everything from the options page, set to its default value...
+var UseTwoSwitchTyping = true;
+var timerLength = 1000; //in milliseconds.
+var SWITCH1 = 221; //close bracket advances
+var SWITCH2 = 219; //open bracket selects
+var SWITCH3 = 220 // \ runs through memory
+ //Horray!  These are the same in Firefox and IE!  (Incidentally, the arrow keys are, too.)
+var H_COL = "#cc6600";
+var TAREA_COL = "white";
+if(document.body) var KEY_SIZE = document.body.clientWidth/31;
+else var KEY_SIZE = 40;
+var use_rad = true;
+var precision = 3;
+var addi = new Array();
+var reset = true;
+var mem_lets = 4;
+
+parseURL(location.href);
+if(addi.length < 7) { //make addi the memory
+  addi.unshift(''); addi.unshift(''); addi.unshift('');
+  addi.push('[store');
+  memory = addi;
+}
+/*
+for(var it = 0; it < addi.length; it++) {
+  if(addi[it] != "") {
+    arrayGroup.splice(arrayGroup.length-2, 0, addi);
+    break;
+  }
+}*/
+var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, memory);
+if(addi.length > 6) arrayGroup.splice(arrayGroup.length-2, 0, addi);
+
+var currentArray = arrayGroup;
+//Initialize arrayGroup after parsing the URL so we get the correct Alphabet.
+var alrepeat = repeat;  //the value it gets reset to.
+
+
+function writeToServer(text) {
+  document.getElementById("theform").submit();
+}
+
+function checkSize() {
+  if (location.href.indexOf('KEY_SIZE') == -1) {
+    var anchors = typer.getElementsByTagName('a');
+    for(var i = 0; i < anchors.length; i++) {
+      anchors[i].style.fontSize = document.body.clientWidth/31 + 'px';
+    }
+  }
+}
+//-->
+</script>
+</head>
+
+<body onkeydown="keyPressed(event);" onclick="keyPressed(null, -2);" onload="checkSize(); highlight(0); document.getElementById('maintext').focus(); focused = document.getElementById('maintext'); if(!UseTwoSwitchTyping) runTimer();">
+<p id="log"></p>
+
+<form action="http://gb-cs.cs.unc.edu/tmp/plaintextmirror.php" id="theform" method="post">
+
+<p style="width: 55%; float: right; margin-top:60px;">
+<script type="text/javascript">
+<!--
+document.write('<textarea cols="31" rows="10" id="maintext" name="maintext" ');
+document.write(' style="font-size:' + KEY_SIZE + 'px;');
+document.write(' background-color:' + TAREA_COL + ';"');
+document.write('onclick="killEvent(event);"></textarea>');
+//-->
+</script>
+</p>
+</form>
+  <table class="data-table">
+<script type="text/javascript">   
+<!--
+  var width = 1280;
+  var i = arrayGroup.length-1;
+  document.write('<tr id="cell-1' + i + '">');
+  for(var j = 0;j<arrayGroup[i].length;j++) {
+    document.write('<td id="cell' + i + j + '" style="border:solid #000000 1px">');
+    document.write('<a onClick="fromMemory(' + j + ');" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ KEY_SIZE + 'px;">' + arrayGroup[i][j] + '</a>');
+    document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
+  }
+  for(var k = arrayGroup[i].length; k < MAX_ARRAY_LENGTH; k++) {
+    document.write('<td id="cell' + i + k);
+    document.write('" style="border:solid #000000 1px');
+    document.write('" ><a onClick="fromMemory(' + j + ');" href="javascript:;" id="anchor' +i+k+'" style="font-size: '+ KEY_SIZE + 'px;"></a>');
+   document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" />');
+  }
+    document.write('</td></tr></table>');
+var bord = false;
+for(var i=0; i < arrayGroup.length-1; i++) {
+  if(i == (arrayGroup.length - 1)) bord = true;
+  document.write('<table  class="data-table"><tr id="cell-1' + i + '">');
+  for(var j = 0;j<arrayGroup[i].length;j++) {
+    document.write('<td id="cell' + i + j);
+    if(bord == true) document.write('" style="border:solid #000000 1px');
+    document.write('"><a onClick="selectletter(this.innerHTML);" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ KEY_SIZE + 'px;">' + arrayGroup[i][j] + '</a>');
+    document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
+  }
+  for(var k = arrayGroup[i].length; k < MAX_ARRAY_LENGTH; k++) {
+    document.write('<td id="cell' + i + j);
+    if(bord == true) document.write('" style="border:solid #000000 1px');
+    document.write('" ><a href="selectletter(this.innerHTML);" id="anchor' +i+k+'" style="font-size: '+ KEY_SIZE + 'px;"></a>');
+    if(bord == true) document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" />');
+    document.write('</td>');
+  }
+  document.write('</tr>');
+  addToMemory(); //to update Memory's look on the screen.
+}
+//-->
+</script>
+</table>
+<h1>Caps lock is <span id="caplock">ON</span></h1>
+</body>
+</html>
