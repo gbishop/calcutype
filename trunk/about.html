@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="files/normal.css" />
+<title>Calcutype:  Information and Documentation</title>
+
+</head>
+<body>
+<h1>About the Calcutype</h1>
+<p>Calcutype, version 0.66
+<br />Written 2008, William Condon, with Dr. Gary Bishop <i>(<a href="mailto:gb@cs.unc.edu">Email</a>)</i>
+<br /><strong style="text-align:center">Note:  JavaScript must be enabled to use this program!</strong> 
+<i><script type="text/javascript">document.write("JavaScript is currently enabled on your browser.");</script></i>
+<br />This program is still under development... any feedback will be greatly appreciated!
+</p>
+<h1 id="collapse" style="color:red;">JavaScript is not properly enabled in your browser!</h1>
+<script type="text/javascript">document.getElementById("collapse").style.visibility = 'hidden';</script>
+
+<hr />
+<h1>Getting Started</h1>
+<p>You should probably begin at the <a href="options.html">options page</a>, which lets you set certain features before beginning.  You only need to visit the options page once - afterwards, you can bookmark that particular version of the typer in your browser's bookmarks list.  From the options page, you can proceed to either fill out an existing form or write your own document.  Unfortunately, only <a href="http://en.wikipedia.org/wiki/plain_text">plain text</a> is supported at the moment - that is, no <i>italics</i>, <b>bold face</b>, or different text sizes.</p>
+<p>To proceed directly to the program with default settings, click here to <a href="framebuilder.html">fill out an existing form</a> or <a href="jscalc.html">write your own document</a>.</p>
+<p><i>SUPPORTED BROWSERS:  The CalcuType was tested in Firefox 3.0.4 and Internet Explorer 7.  While it works in Internet Explorer, we strongly recommend that (if possible) you <a href="http://www.getfirefox.com">get the free Firefox web browser</a>.</i></p>
+
+<hr />
+<h2 id="typing">Typing</h2>
+<p>Every key on the keyboard works as normal, except for three keys I had to disable to support the "virtual keyboard."  That is, if you're able to use a keyboard normally, you may.  Alternatively, every letter and digit, the normal four operators ("+", "-", "*", "/"), the equals sign, the carriage return, and many other symbols are in the virtual keyboard.</p>
+<table class="data-table">
+<tr><th></th><th>Default Values of Special Keys. <br /> (All special keys can be reset on the <a href="options.html">options page.</a>)</th></tr>
+<tr><td style="font-size:200%;"> ] </td>
+<td>Advances between rows or symbols on the virtual keyboard.</td></tr>
+<tr><td style="font-size:200%;"> [ </td>
+<td>Selects the highlighted row or column on the virtual keyboard. <br /><ul><li>When you either select a letter/symbol or pass through a row four times without selecting any letter or symbol, the virtual keyboard resets to the default unselected state.</li></ul></td></tr>
+<tr><td style="font-size:200%;"> \ </td><td>Automatically makes the first word in memory show up at the cursor's location in the text.
+<br /><b>This key is OPTIONAL.</b>  You can also select any word in memory normally, just like anything else on the virtual keyboard.
+<ul><li>Capitalization will be the same as you typed.</li>
+<li>If hit repeatedly, it will cycle through each word in memory.</li>
+<li>Except for math equations, it will overwrite any part of the word you began typing.</li>
+</ul>
+</td></tr></table>
+<p>Also, clicking on any key in the virtual keyboard is equivalent to selecting it with the special keys.</p>
+
+
+<hr />
+<h2 id="completion">Word Completion</h2>
+<p>Word completion is still in a fairly primitive state right now.  We're riding off
+
+<!-- a semi-organized, semi-alphabetized list from <a href="http://www.paulnoll.com/Books/Clear-English/English-3000-common-words.html"> Paul Noll's website</a>.  (<a href="mailto:pn@paulnoll.com">Contact</a>). -->
+
+a list of the 10000 most commonly used words in the <a href="http://www.gutenberg.org">Project Gutenberg</a> electronic books, taken from <a href="http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Project_Gutenberg_1-10000">Wiktionary</a>.  Basically, the program automatically puts into memory the first three words in the list whose first letters match what you're typing.</p>
+
+<hr />
+<h2 id="math">Math Support</h2>
+<p>Whenever you type a valid mathematical expression, the program will automatically put into memory the answer.  For example, if you type <tt>3+4</tt>, the first memory slot will read <tt>=7</tt>.  It supports anything that JavaScript supports:</p>
+<ul><li>The "basic four" operations:  addition, multiplication, subtraction, and division.</li>
+<li>Parentheses</li>
+<li>The modulus operator, %.
+<ul><li>Gives remainder when the first number is divided by the second number.</li>
+<li>For example, <tt>5%2</tt> yields <tt>1</tt>.</li></ul></li>
+<li>Pi</li>
+<li>The trig functions, <tt>sin(&theta;), cos(&theta;), tan(&theta;), asin(x), acos(x)</tt>, and <tt>atan(x)</tt></li>
+<li>Euler's Number, <i>e</i></li>
+<li>Natural logs (<tt>ln(x)</tt>) and square roots (<tt>sqrt(x)</tt>).
+<li>Variables, if explicitly defined before used.
+<ul><li>For example, <tt>X=5 X-3</tt> will bring up <tt>=2</tt>, but <tt>X-3=2 X</tt> will <i>NOT</i> bring up <tt>=5</tt>, because X has not been explicitly defined.</li>
+<li>Variables can be any word and have any number of letters.</li>
+<li>Variables are case-sensitive:  <tt>A</tt> is different from <tt>a</tt>.</li></ul></li>
+<li>Many other functions, as part of the <a href="http://www.w3schools.com/jsref/jsref_obj_math.asp">JavaScript Math library</a>.  For example, to get the absolute value of <tt>x</tt>, type <tt>Math.abs(x)</tt>.</li>
+<li>Actually, you could probably write entire JavaScript programs in this... if you have keyboard access; the virtual keyboard doesn't contain the <tt>{}</tt> keys required to do functions and loops.</li>
+</ul>
+<hr />
+
+<h2 id="symbols">Special Symbols</h2>
+<table class="data-table">
+<tr><td>&pi;</td><td><ul><li>The Greek letter pi.</li> <li>The ratio of a circle's circumference to its diameter.</li><li>Approximately
+<script type="text/javascript">document.write(Math.PI);</script></li></ul></td></tr>
+<tr><td>&#8594;</td><td>Advance the cursor to the next box in the form.</td></tr>
+<tr><td>[new</td><td>Load a new form.</td></tr>
+<tr><td>&laquo;</td><td>Backspace.  (Deletes the last letter you typed.)</td></tr>
+<tr><td>&laquo;w</td><td>Backspace through word.  (Deletes everything between the cursor and the last space before the cursor.)</td></tr>
+<tr><td>&para;</td><td>Carriage return.  (Equivalent to pressing 'enter' in a normal text editor.)</td></tr>
+<tr><td>[<img src="files/resultset_previous.png" alt="retreat one letter" /></td><td>Moves the cursor backward one letter.</td></tr>
+<tr><td>[<img src="files/resultset_next.png" alt="advance one letter" /></td><td>Moves the cursor forward one letter.</td></tr>
+<tr><td>[<img src="files/resultset_first.png" alt="retreat one word" /></td><td>Moves the cursor backward one word.</td></tr>
+<tr><td>[<img src="files/resultset_last.png" alt="advance one word" /></td><td>Moves the cursor forward one word.</td></tr>
+<tr><td>[<img src="files/alpha.png" alt="cap" /></td><td>Turns caps lock on or off. <br /> When caps lock is on, the virtual keyboard types capital letters; when caps lock is off, it types lowercase letters.</td></tr>
+<tr><td>[store</td><td>Stores the last word before the cursor in memory (that is, stores everything between the cursor and the last space before the cursor).</td></tr>
+<tr><td>[<img src="files/drive_disk.png" alt="save" /></td><td>Copies what you've written into a new file, ready to be saved on your local computer.<br /><i>You must be connected to the Web to use this.</i></td></tr>
+</table>
+
+
+<hr />
+<!--<p style="font-size:70%" id="copyright">Copyright:  Well, the word frequency list is licensed under the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>, because our word-prediction list was before we got it.  Basically, this means you can do whatever you want with it as long as you link to the original version (and the GNU License), license your derivative copy under the GNU Free Documentation License, and let people have the source code for your derivative copy.
+<br />I'm not sure about the rest of the program... I think I'm licensing it under the GNU Public License, but don't rely on that yet.</p> -->
+
+<div style="font-size:70%" id="copyright"><h2>COPYRIGHT</h2>
+<p>There are several parts of this work:</p>
+<ul><li>The <a href="files/Gutenberg 10,000.js">word list</a>.
+<p>This is obtained from the Project Gutenberg ebooks.  Project Gutenberg's license is:  
+<q>This eBook is for the use of anyone anywhere at no cost and with
+almost no restrictions whatsoever.  You may copy it, give it away or
+re-use it under the terms of the <a href="http://gutenberg.net/license">Project Gutenberg License</a> included with this eBook or online at www.gutenberg.net</q>
+Then, it was compiled - compilation licensed under the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>
+Then, I assembled it for JavaScript.  I release my changes into the public domain, effective when this program is posted on the World Wide Web.</p>
+</li>
+<li>Various icons, from <a href="http://www.famfamfam.com/lab/icons/silk/">FamFamFam.com</a>, licensed under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution 2.5 License</a>.</li>
+<li>Several lines marked in the code, taken from a programming website.  I think these are uncopyrightable minimal creativity, but I list it to be complete.</li>
+<li>The rest of the program, copyright 2008 William Condon.  Effective when this program is posted on the World Wide Web:
+<p>
+    The CalcuType is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+    The CalcuType is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    <a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a> for more details.
+</p></li></ul></div>
+
+<!-- Basically, this means you can do whatever you want as long as you link to my original version (and the GNU License), license your derivative copy under the GNU General Public License, and let people have the source code for your derivative copy. -->
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<link type="text/css" rel="stylesheet" href="files/normal.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Calcutype Control Panel</title>
+
+<script type="text/javascript">
+<!--
+ var myURL = location.href;
+ var origURL = location.href;
+ var otherswitchsetwrong = false;
+ var switch1 = -3;
+ var switch2 = -3;
+ var twoswitchtyping;
+function processForm (form) {
+  otherswitchsetwrong = false;
+  myURL = origURL;
+  var wc=0;
+  while(myURL.charAt(myURL.length-1)!='/' && myURL.length > 4)
+    myURL = myURL.substring(0,myURL.length-1);
+  myURL = myURL + "jscalc.html?";
+ 
+  var CurrVar;
+  for (var b = 0; b < form.UseTwoSwitchTyping.length; b++) {
+    if (form.UseTwoSwitchTyping[b].checked)
+      CurrVar = form.UseTwoSwitchTyping[b].value;
+  }
+  myURL = myURL + 'UseTwoSwitchTyping=' + CurrVar + '&';
+
+  CurrVar=form.timerLength.value; myURL = myURL + "timerLength=" + CurrVar*1000 + "&";
+  for (var b = 0; b < form.SWITCH1.length; b++) {
+    if (form.SWITCH1[b].checked)
+      CurrVar = form.SWITCH1[b].value;
+  }
+  myURL = myURL + "SWITCH1=" + CurrVar + "&";
+  for (var b = 0; b < form.SWITCH2.length; b++) {
+    if (form.SWITCH2[b].checked)
+      CurrVar = form.SWITCH2[b].value;
+  }
+  myURL = myURL + "SWITCH2=" + CurrVar + "&";
+  for (var b = 0; b < form.SWITCH3.length; b++) {
+    if (form.SWITCH3[b].checked)
+      CurrVar = form.SWITCH3[b].value;
+  }
+  myURL = myURL + 'SWITCH3=' + CurrVar + '&';
+  for (var b = 0; b < form.use_rad.length; b++) {
+    if (form.use_rad[b].checked)
+      CurrVar = form.use_rad[b].value;
+  }
+  myURL = myURL + 'use_rad=' + CurrVar + '&';
+  CurrVar=form.precision.value; myURL = myURL + 'precision=' + CurrVar + '&';
+  CurrVar=form.mem_lets.value; myURL = myURL + 'mem_lets=' + CurrVar + '&';
+  CurrVar=form.H_COL.value; myURL = myURL + 'H_COL=' + CurrVar + '&';
+  CurrVar=form.TAREA_COL.value; myURL = myURL + 'TAREA_COL=' + CurrVar + '&';
+  CurrVar=form.KEY_SIZE.value; myURL = myURL + "KEY_SIZE=" + CurrVar + "&";
+  CurrVar=form.repeat.value; myURL = myURL + "repeat=" + CurrVar + "&";
+  CurrVar=form.reset.checked; myURL = myURL + 'reset=' + CurrVar + '&';
+  CurrVar=form.TEXT_SIZE.value; myURL = myURL + "TEXT_SIZE=" + CurrVar + "&";
+  for (var b = 0; b < form.Alphabet.length; b++) {
+    if (form.Alphabet[b].checked)
+      CurrVar = form.Alphabet[b].value;
+  }
+  myURL = myURL + 'Alphabet=' + CurrVar + '&'; 
+  CurrVar=form.startLoaded.value; myURL = myURL + "startLoaded=" + CurrVar + "&";
+  CurrVar = "";
+  for (var b = 0; b < form.addi.length; b++) {
+    console.log(b + "\t" + form.addi[b].value);
+    if(form.addi[b].value != "") {
+      CurrVar += form.addi[b].value;
+      CurrVar += "_";
+    }
+  }
+  myURL = myURL + 'addi=' + CurrVar;
+
+
+ document.getElementById("genURL").value = myURL;
+ document.getElementById('newdoc').href = myURL;
+ document.getElementById('frameset').href = myURL.replace("jscalc.html", "framebuilder.html");
+ 
+ if((switch1 == switch2) && twoswitchtyping) {
+  	alert('Both switches set to same value');
+ 	document.getElementById("genURL").value = "Change one switch's value";
+	document.getElementById('URLlink').href = "";
+ }
+ if(otherswitchsetwrong) {
+ 	alert('Set other switch');
+ 	document.getElementById("genURL").value = "Other switch not selected";
+	document.getElementById('URLlink').href = "";
+ }
+}
+
+var selectingOther1 = false;
+var selectingOther2 = false;
+var selectingOther3 = false;
+
+function selectingOther1isTrue() {
+  selectingOther1 = true;
+  selectingOther2 = false;
+  selectingOther3 = false;
+}
+function selectingOther2isTrue()
+{
+  selectingOther1 = false;
+  selectingOther2 = true;
+  selectingOther3 = false;
+}
+function selectingOther3isTrue()
+{
+  selectingOther1 = false;
+  selectingOther2 = false;
+  selectingOther3 = true;
+}
+function setExtraKeys() {
+  if(document.getElementById('add').checked)
+    document.getElementById('hiddenTable').style.visibility = "visible";
+  else
+    document.getElementById('hiddenTable').style.visibility = "collapse";
+}
+
+
+function processKey(e)  {
+  if(selectingOther1)  {
+    document.getElementById("other1").value=e.keyCode;
+    document.getElementById("Other1label").innerHTML= "Other: key code " + e.keyCode;
+    selectingOther1 = false;
+  }
+  if(selectingOther2) {
+    document.getElementById("other2").value=e.keyCode;
+    document.getElementById("Other2label").innerHTML= "Other: key code " + e.keyCode;
+    selectingOther2 = false;
+  }
+  if(selectingOther3) {
+    document.getElementById("other3").value=e.keyCode;
+    document.getElementById("Other3label").innerHTML= "Other: key code " + e.keyCode;
+    selectingOther3 = false;
+  }
+}
+//-->
+</script>
+
+</head><body onkeydown="processKey(event)">
+<h1 style="text-align:center">CalcuType Control Panel</h1>
+<p>To use the control panel, set the options like you want them and then click the "Process Form" button.
+You can then either copy and paste the URL from the text box or click on the link "Click here after processing"
+to go directly to the typer page.  When you're at the typer page, you can bookmark that page (ctrl+d in Firefox or Internet Explorer) to save the options you selected.</p>
+<hr />
+<form action="" method="get">
+<table width="600" border="0" cellpadding="0" cellspacing="0">
+
+<tr><th colspan="2">Scanning</th></tr>
+<tr>
+<td colspan="2">  <input name="UseTwoSwitchTyping" id="Two" value="true" checked="checked" type="radio" />
+  <label for="Two">Use Two Switch Typing <i>(No Timer)</i></label></td></tr>
+<tr>
+<td colspan="2">  <input name="UseTwoSwitchTyping" id="One" value="false" type="radio" />
+  <label for="One">Use Single Switch Typing <i>(Using Switch 2)</i></label></td> </tr>
+<tr>
+<td><label for="timerLength">Timer Length, in seconds</label></td>
+<td>  <input name="timerLength" id="timerLength" value="1" type="text" /></td></tr>
+<tr><td colspan="2">
+  <table border="0" cellpadding="0" cellspacing="0">
+  <tfoot><tr><td colspan="3" style="font-style:italic">Note that some keys, such as backspace, tab, and F11, have default browser functions and probably shouldn't be used as switches.</td></tr></tfoot>
+  <tbody>
+  <tr>
+  <th style="background-color: #33ccff;">Switch 1 - Advance</th>
+  <th style="background-color: #33cc99;">Switch 2 - Select</th>
+  <th style="background-color: #33cc00;">Switch 3 - Memory</th>
+  </tr>
+  <tr>
+  <td style="background-color: #33ccff;">
+    <input name="SWITCH1" id="Mouse" value="-2" type="radio" />
+    <label for="Mouse">Mouse</label><br />
+    <input name="SWITCH1" id="Enter" value="13" type="radio" />
+    <label for="Enter">Enter</label><br />
+    <input name="SWITCH1" id="Shift" value="32" type="radio" />
+    <label for="Shift">Shift</label><br />
+    <input name="SWITCH1" id="cbr" value="221" checked="checked" type="radio" />
+    <label for="cbr">Close bracket</label><br />
+    <input name="SWITCH1" id="other1" value="-" type="radio" onchange="selectingOther1isTrue();" />
+    <label for="other1" id="Other1label">Other <i>(Check; then press key)</i></label><br />
+  </td>
+  <td style="background-color: #33cc99;">
+    <input name="SWITCH2" id="Mouse2" value="-2" type="radio" />
+    <label for="Mouse2">Mouse</label><br />
+    <input name="SWITCH2" id="Any2" value="-1" type="radio" />
+    <label for="Any2">Any Key</label><br />
+    <input name="SWITCH2" id="Enter2" value="13" type="radio" />
+    <label for="Enter2">Enter</label><br />
+    <input name="SWITCH2" id="Shift2" value="32" type="radio" />
+    <label for="Shift2">Shift</label><br />
+    <input name="SWITCH2" id="obr" value="219" checked="checked" type="radio" />
+    <label for="obr">Open bracket</label><br />
+    <input name="SWITCH2" id="other2" value="-" type="radio" onchange="selectingOther2isTrue();" />
+    <label for="other2" id="Other2label">Other <i>(Check; then press key)</i></label><br />
+  </td>
+  <td style="background-color: #33cc00;">
+    <input name="SWITCH3" id="Mouse3" value="-2" type="radio" />
+    <label for="Mouse3">Mouse</label><br />
+    <input name="SWITCH3" id="Enter3" value="13" type="radio" />
+    <label for="Enter3">Enter</label><br />
+    <input name="SWITCH3" id="Shift3" value="32" type="radio" />
+    <label for="Shift3">Shift</label><br />
+    <input name="SWITCH3" id="fslash" value="220" checked="checked" type="radio" />
+    <label for="fslash">Forward slash</label><br />
+    <input name="SWITCH3" id="other3" value="-" type="radio" onchange="selectingOther3isTrue();" />
+    <label for="other3" id="Other3label">Other <i>(Check; then press key)</i></label><br />
+  </td>
+  </tr>
+  </tbody>
+  </table>
+</td></tr>
+
+<tr><th colspan="2">Formatting of Text</th></tr>
+<tr>
+<td>Measure angles in:</td>
+<td>  <input name="use_rad" id="RAD" value="true" type="radio" checked="checked" />
+   <label for="RAD">Radians</label>
+<input name="use_rad" id="DEG" value="false" type="radio" />
+  <label for="DEG">Degrees</label></td></tr>
+<tr>
+<td><label for="precision">Maximum number of decimal places to display</label></td>
+<td>  <input name="precision" id="precision" value="3" type="text" /></td></tr>
+<tr>
+<td><label for="mem_lets">Number of letters to show in words stored in memory</label></td>
+<td>  <input name="mem_lets" id="mem_lets" value="4" type="text" /></td></tr>
+
+
+<tr><th colspan="2">Colors and Sizes <i>(standard names or hex values)</i></th></tr>
+<tr>
+<td><label for="HIGHLIGHT_COLOR">Color of highlighting</label></td>
+<td>  <input name="H_COL" id="HIGHLIGHT_COLOR" value="#cc6600" type="text" /></td></tr>
+<tr>
+<td><label for="TAREA_COLOR">Background color for text area</label></td>
+<td>  <input name="TAREA_COL" id="TAREA_COLOR" value="white" type="text" /></td></tr>
+<tr>
+<td><label for="KEY_SIZE">Size of text on virtual keyboard, in pixels</label></td>
+<td>  <input name="KEY_SIZE" id="KEY_SIZE" value="40" type="text" /></td></tr>
+<tr>
+<td><label for="TEXT_SIZE">Size of text in text area, in pixels</label></td>
+<td>  <input name="TEXT_SIZE" id="TEXT_SIZE" value="30" type="text" /></td></tr>
+
+<tr><th colspan="2">Virtual Keyboard</th></tr>
+<tr>
+<td><label for="repeat">Number of times to repeat a row</label></td>
+<td>  <input name="repeat" id="repeat" value="3" type="text" /></td></tr>
+<tr>
+<td colspan="2">  <input name="reset" id="reset" value="true" checked="checked" type="checkbox" />
+  <label for="reset">Reset highlighting to beginning after selection</label></td></tr>
+<tr>
+<td colspan="2">  <input name="Alphabet" id="ABC" value="ABC" checked="checked" type="radio" />
+  <label for="ABC">ABC <i>(normal)</i></label></td></tr>
+<tr>
+<td colspan="2">  <input name="Alphabet" id="ETA" value="ETA" type="radio" />
+  <label for="ETA">ETA <i>(frequency, whole words)</i></label></td> </tr>
+<tr>
+<td colspan="2">  <input name="Alphabet" id="SPA" value="SPA" type="radio" />
+  <label for="SPA">SPA <i>(frequency, beginnings of words)</i></label></td></tr>
+<tr>
+<td colspan="2">
+<input name="add" id="add" type="checkbox" onchange="setTimeout('setExtraKeys()',100);" />
+<label for="add">Add keys to virtual keyboard</label></td></tr>
+<tr id="hiddenTable" style="visibility:collapse;"><td colspan="2"><table>
+<tr><td>
+<input name="addi" type="text" /></td><td>
+<input name="addi" type="text" /></td><td>
+<input name="addi" type="text" /></td></tr>
+<tr><td>
+<input name="addi" type="text" /></td><td>
+<input name="addi" type="text" /></td><td>
+<input name="addi" type="text" /></td></tr>
+<!-- <tr><td>
+<input name="addi" type="text" /></td><td>
+<input name="addi" type="text" /></td></tr> -->
+</table></td></tr>
+
+<tr>
+<td><label for="startLoaded">Form to load at start <i>(Only when filling out a form)</i></label></td>
+<td>  <input name="startLoaded" id="startLoaded" value="about.html#typing" type="text" /></td></tr>
+
+</table>
+
+
+<!--	-Which memory list
+	-User-specific words to add to the top of the memory list
+-->
+<p>
+<input name="button" value="Process form" onclick="processForm(this.form)" type="button" />
+After processing
+<img src="files/spacer.gif" width="130" height="1" alt="   " /><a id="newdoc" href="javascript:;">click here to write a new document</a>, or <a id="frameset" href="javascript:;">click here to fill out a form.</a> <br />
+<input type="text" maxlength="1024" readonly="readonly" name="genURL" id="genURL" value="The URL will appear here" />
+</p>
+</form>
+</body></html>

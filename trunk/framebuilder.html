@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<script type="text/javascript" src="files/common.js"></script>
+<!-- <script type="text/javascript" src="firebug-lite-compressed.js"></script> -->
+
+<script type="text/javascript" src="files/Gutenberg 10,000.js"></script>
+<script type="text/javascript">
+<!--
+var overtype = true;
+var memkey = 0;
+var caplock = true;
+var MAX_ARRAY_LENGTH = 10;
+
+var focused;
+var textboxes = new Array();
+var typer;
+
+
+var Alphabet = ABC;
+//var frequent = new Array(); //frequency table is imported from external file at top
+var repeat = 2;
+var currentIndex = 0; //start with first member of arrayGroup highlighted
+
+var startLoaded = "about.html#typing"
+
+//The keyboard row that's different...
+var funct = new Array('[&#8594;', '[&para;', '[new', '[<img src="alpha.png" alt="cap" />', '[&laquo;]','[&laquo;w]');
+
+var punct = new Array('[<img src="resultset_previous.png" alt="retreat one letter" />',
+ '[<img src="resultset_next.png" alt="advance one letter" />',
+ '[<img src="resultset_first.png" alt="retreat one word" />', 
+ '[<img src="resultset_last.png" alt="advance one word" />', 
+'.', ',', '?', '"', '`', '!', ':', '$');
+
+
+
+var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
+
+//These two variables are for IE support.
+var prevText = "";var cursor = 0;
+
+//Here comes everything from the options page, set to its default value...
+var UseTwoSwitchTyping = true;
+var timerLength = 1000; //in milliseconds.
+var SWITCH1 = 221; //close bracket advances
+var SWITCH2 = 219; //open bracket selects
+var SWITCH3 = 220 // \ runs through memory
+ //Horray!  These are the same in Firefox and IE!
+ //(Incidentally, the arrow keys are, too.)
+var H_COL = "#cc6600";
+var TAREA_COL = "white";
+KEY_SIZE = 40;
+var use_rad = true;
+var precision = 3;
+var addi = new Array();
+var reset = true;
+var mem_lets = 4;
+
+parseURL(location.href);
+var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, memory);
+for(var it = 0; it < addi.length; it++) {
+  if(addi[it] != "")
+    arrayGroup.splice(arrayGroup.length-2, 0, addi);
+}
+var currentArray = arrayGroup;
+//Initialize arrayGroup after parsing the URL so we get the correct Alphabet.
+var alrepeat = repeat;  //the value it gets reset to.
+
+function checkSize() {
+  if (location.href.indexOf('KEY_SIZE') == -1) {
+    var anchors = typer.getElementsByTagName('a');
+    for(var i = 0; i < anchors.length; i++) {
+      anchors[i].style.fontSize = document.body.clientWidth/31 + 'px';
+    }
+  }
+}
+
+function advanceFocus() {
+  try {
+    textboxes[ indexOf(textboxes, focused)+1 ].focus();
+  }
+  catch(except) {
+    textboxes[0].focus();
+  }
+}
+
+function loadNewForm(newurl) {
+  document.getElementById('form').src = newurl;
+  setTimeout("readyForm();", 500);
+}
+
+function readyForm() {
+  typer = window.frames['typer'];
+  frames['form'].document.body.onclick = function(event) {parent.keyPressed(null, -2);};
+  textareas = frames['form'].document.getElementsByTagName('textarea');
+  areasOrigName = new Array();
+  oneliners = frames['form'].document.getElementsByTagName('input');
+  lineOrigName = new Array();
+  for(var n = 0; n < textareas.length; n++) {
+    areasOrigName[n] = textareas[n].name;
+    textareas[n].name = "text";
+    textareas[n].onfocus = function(){parent.focused=this;};
+  }
+  for(n = 0; n < oneliners.length; n++) {
+    if(oneliners[n].type == "text") {
+      lineOrigName[n] = oneliners[n].name;
+      oneliners[n].name = "text";
+    }
+    oneliners[n].onfocus = function() {parent.focused = this; };
+  }
+  temp = frames['form'].document.getElementsByName("text");
+
+//IE STOPGAP CODE BEGINS HERE
+  if(temp.length == 0) { //if we're running in Internet Explorer, which doesn't see the updated names
+    for(n = 0; n < oneliners.length; n++) {
+      if(oneliners[n].type == "text")
+        textboxes.push(oneliners[n]);
+    }
+    for(n = 0; n < textareas.length; n++)
+      textboxes.push(textareas[n]);
+  }    
+//END IE STOPGAP CODE
+
+  else {
+    for(var n = 0; n < temp.length; n++)
+      textboxes[n] = temp[n];        //When I did it directly, textboxes was dynamically updated when I restored the original names.
+  }
+
+  for(var n = 0; n < textareas.length; n++) {
+    textareas[n].name = areasOrigName[n];
+  }  //And now read back the original names in case the page has scripts which need them.
+  for(var n = 0; n < oneliners.length; n++) {
+    if(oneliners[n].type == "text") {
+      oneliners[n].name = lineOrigName[n];
+    }
+  } 
+  frames['form'].document.body.onkeydown = frames['typer'].getElementById('url').onkeydown;
+  if(textboxes.length > 0) {
+    focused = textboxes[0];
+    textboxes[0].focus();
+  }
+  else {
+      typer.getElementById('url').value = "";
+      typer.getElementById('loader').style.visibility = 'visible';
+      typer.getElementById('url').focus();
+      focused = typer.getElementById('url');
+  }
+}
+
+
+//-->
+</script>
+
+
+<title>Calcutype:  Fill out your own forms!</title>
+</head>
+<frameset cols = "40%,60%">
+<frame src = "files/jsinframe.html" name = "typer" id="typer" />
+<frame src = "about.html#typing" name = "form" id="form" />
+<noframes>
+<body>
+<h1><a href="jscalc.html">Click here to load the no-frames version of this program.</a></h1>
+</body>
+</noframes>
+</frameset>
+</html>
