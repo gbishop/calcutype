@@ -30,10 +30,11 @@ border-style: outset;
   
 </head>
 
-<body onload="parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); parent.typer = document; document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
+<body onload="parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
 
 <script type="text/javascript">   
 <!--
+  parent.typer = document;
   if(window.innerWidth) var width = window.innerWidth;
   else var width = parent.document.body.clientWidth;
   var i = parent.arrayGroup.length-1;
@@ -68,7 +69,7 @@ for(var i=0; i < parent.arrayGroup.length-1; i++) {
     document.write('</td>');
   }
   document.write('</tr></table>');
-  addToMemory(); //to update Memory's look on the screen.
+  parent.addToMemory(); //to update Memory's look on the screen.
 }
 //-->
 </script>
