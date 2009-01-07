@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Virtual keyboard for the fill-out-forms JavaScript Calculator and Typewriter</title>
+<style type="text/css">
+
+table { margin-left: 2%;
+ margin-right:auto;
+ border-collapse:collapse;
+ border: solid #000000 1px;
+ }
+tr { border: solid #000000 1px;
+ }
+a { text-decoration: none;
+ font-size:40px;
+ font-family: "Lucida Console", monospace, Arial, Helvetica, sans-serif;
+ text-align: center;
+ font-weight: bold;
+ }
+textarea { font-size: 30px;
+border-style: outset;
+	border-color: #eee8aa;
+ font-weight:bold;
+ font-family: Arial, Helvetica, sans-serif;
+ border: solid #ffffff 3px;
+  }
+</style>
+  
+</head>
+
+<body onload="parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
+
+<script type="text/javascript">   
+<!--
+  parent.typer = document;
+  if(window.innerWidth) var width = window.innerWidth;
+  else var width = parent.document.body.clientWidth;
+  var i = parent.arrayGroup.length-1;
+  document.write('<table><tr id="cell-1' + i + '">');
+  for(var j = 0;j<parent.arrayGroup[i].length;j++) {
+    document.write('<td id="cell' + i + j + '" style="border:solid #000000 1px">');
+    document.write('<a onClick="parent.fromMemory(' + j + ');" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.arrayGroup[i][j] + '</a>');
+    document.write('<img src="spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
+  }
+  for(var k = parent.arrayGroup[i].length; k < parent.MAX_ARRAY_LENGTH; k++) {
+    document.write('<td id="cell' + i + k);
+    document.write('" style="border:solid #000000 1px');
+    document.write('" ><a onClick="parent.fromMemory(' + j + ');" href="javascript:;" id="anchor' +i+k+'" style="font-size: '+ parent.KEY_SIZE + 'px;"></a>');
+   document.write('<img src="spacer.GIF" width="15px" height="0px" />');
+  }
+    document.write('</td></tr></table>');
+var bord = false;
+for(var i=0; i < parent.arrayGroup.length-1; i++) {
+  if(i == (parent.arrayGroup.length - 1)) bord = true;
+  document.write('<table><tr id="cell-1' + i + '">');
+  for(var j = 0;j<parent.arrayGroup[i].length;j++) {
+    document.write('<td id="cell' + i + j);
+    if(bord == true) document.write('" style="border:solid #000000 1px');
+    document.write('"><a onClick="parent.selectletter(this.innerHTML);" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.arrayGroup[i][j] + '</a>');
+    document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
+  }
+  for(var k = parent.arrayGroup[i].length; k < parent.MAX_ARRAY_LENGTH; k++) {
+    document.write('<td id="cell' + i + j);
+    if(bord == true) document.write('" style="border:solid #000000 1px');
+    document.write('" ><a onClick="parent.selectletter(this.innerHTML);" href="javascript:;" id="anchor' +i+k+'" style="font-size: '+ parent.KEY_SIZE + 'px;"></a>');
+    if(bord == true) document.write('<img src="spacer.GIF" width="' + width/85 + 'px" height="0px" />');
+    document.write('</td>');
+  }
+  document.write('</tr></table>');
+  parent.addToMemory(); //to update Memory's look on the screen.
+}
+//-->
+</script>
+<h1>Caps lock is <span id="caplock">ON</span></h1>
+<p id="loader" style="background-color: #cc6600; font-size: 150%;">Type URL or filename of the form to load, including any filename extensions. When finished, select "[new" to load this file or webpage. <br />
+<input type="text" id="url" name="url" onkeydown="parent.keyPressed(event);" style="width:90%" />
+</p>
+</body>
+</html>
+<!-- &#8658; -->
