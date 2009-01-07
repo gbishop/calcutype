@@ -7,7 +7,7 @@ The Academic Word List (AWL) was developed by Averil Coxhead at the School of Li
 The 570 words are divided into 10 sublists. The sublists are ordered such that the words in the first sublist are the most frequent words and those in the last sublist are the least frequent.
 */
 
-var frequent = new Array(
+frequent = frequent.concat( new Array(
 "sector", "available", "financial", "process", "individual", "specific", "principle", "estimate", "variables", "method", "data", "research", "contract", "environment", "export", "source", "assessment", "policy", "identified", "create", "derived", "factors", "procedure", "definition", "assume", "theory", "benefit", "evidence", "established", "authority", "major", "issues", "labour", "occur", "economic", "involved", "percent", "interpretation", "consistent", "income", "structure", "legal", "concept", "formula", "section", "required", "constitutional", "analysis", "distribution", "function", "area", "approach", "role", "legislation", "indicate", "response", "period", "context", "significant", "similar",
 
 "community", "resident", "range", "construction", "strategies", "elements", "previous", "conclusion", "security", "aspects", "acquisition", "features", "text", "commission", "regulations", "computer", "items", "consumer", "achieve", "final", "positive", "evaluation", "assistance", "normal", "relevant", "distinction", "region", "traditional", "impact", "consequences", "chapter", "equation", "appropriate", "resources", "participation", "survey", "potential", "cultural", "transfer", "select", "credit", "affect", "categories", "perceived", "sought", "focus", "purchase", "injury", "site", "journal", "primary", "complex", "institute", "investment", "administration", "maintenance", "design", "obtained", "restricted", "conduct",
@@ -27,4 +27,4 @@ var frequent = new Array(
 "bulk", "behalf", "unified", "commenced", "erosion", "anticipated", "minimal", "ceases", "vision", "mutual", "norms", "intermediate", "manual", "supplementary", "incompatible", "concurrent", "ethical", "preliminary", "integral", "conversely", "relaxed", "confined", "accommodation", "temporary", "distorted", "passive", "subordinate", "analogous", "military", "scenario", "revolution", "diminished", "coherence", "suspended", "mature", "assurance", "rigid", "controversy", "sphere", "mediation", "format", "trigger", "qualitative", "portion", "medium", "coincide", "violation", "device", "insights", "refine", "devoted", "team", "overlap", "attained", "restraints", "inherent", "route", "protocol", "founded", "duration",
 
 "whereby", "inclination", "encountered", "convinced", "assembly", "albeit", "enormous", "reluctant", "posed", "persistent", "undergo", "notwithstanding", "straightforward", "panel", "odd", "intrinsic", "compiled", "adjacent", "integrity", "forthcoming", "conceived", "ongoing", "so-called", "likewise", "nonetheless", "levy", "invoked", "colleagues", "depression", "collapse"
-);
+) );

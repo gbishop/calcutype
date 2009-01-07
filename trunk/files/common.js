@@ -23,6 +23,11 @@ var SPA = new Array(
   new Array('T','B','I','W','O','V','Y','Z','X')
 );
 var memory = new Array('', '', '', '[store');
+var punct = new Array('[<img src="files/previous.png" alt="retreat one letter" />',
+ '[<img src="files/next.png" alt="advance one letter" />',
+ '[<img src="files/first.png" alt="retreat one word" />', 
+ '[<img src="files/last.png" alt="advance one word" />', 
+'.', ',', '?', '"', '`', '!', ':', '$');
 
 //These two variables are for IE support.
 var prevText = "";
@@ -394,15 +399,15 @@ function selectletter(letter) {
   else if(letter.indexOf('drive_disk.png') != -1) {
     writeToServer(myText);
   }
-  else if(letter.indexOf('resultset_previous.png') != -1) {
+  else if(letter.indexOf('previous.png') != -1) {
     updateText(cursor-1, myText);
   }
-  else if(letter.indexOf('resultset_next.png') != -1)
+  else if(letter.indexOf('next.png') != -1)
     updateText(cursor+1, myText);
-  else if(letter.indexOf('resultset_first.png') != -1) {
+  else if(letter.indexOf('first.png') != -1) {
     updateText(focused.value.replace(/\s/g, ' ').lastIndexOf(' ', cursor-2), myText);
   }
-  else if(letter.indexOf('resultset_last.png') != -1)
+  else if(letter.indexOf('last.png') != -1)
     updateText(focused.value.replace(/\s/g, ' ').indexOf(' ', cursor)+1, myText);
   repeat = alrepeat;
   unhighlight(currentIndex);
