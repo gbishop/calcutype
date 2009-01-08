@@ -23,10 +23,10 @@ var SPA = new Array(
   new Array('T','B','I','W','O','V','Y','Z','X')
 );
 var memory = new Array('', '', '', '[store');
-var punct = new Array('[<img src="files/previous.png" alt="retreat one letter" />',
- '[<img src="files/next.png" alt="advance one letter" />',
- '[<img src="files/first.png" alt="retreat one word" />', 
- '[<img src="files/last.png" alt="advance one word" />', 
+var punct = new Array('<img src="files/previous.png" alt="retreat one letter" />',
+ '<img src="files/next.png" alt="advance one letter" />',
+ '<img src="files/first.png" alt="retreat one word" />', 
+ '<img src="files/last.png" alt="advance one word" />', 
 '.', ',', '?', '"', '`', '!', ':', '$');
 
 //These two variables are for IE support.
@@ -347,7 +347,8 @@ function selectletter(letter) {
     else
       overtype = false;
   }
-  if(letter.charAt(0) !='[') {
+console.log(letter + ' cursor at ' + cursor);
+  if(letter.charAt(0) !='[' && letter.indexOf('<img') == -1) {
     if (letter == '&pi;')
       addition = 'π';
     else if (caplock == true)
@@ -357,13 +358,14 @@ function selectletter(letter) {
   }
   else if(letter == '[&nbsp;]')
     addition = ' ';
-  else if (letter == '[&para;' || letter == '[¶]')
+  else if (letter.indexOf('pilcrow.png') != -1)
     addition = '\n';
-  else if (letter == '[&laquo;]' || letter == '[«]') {
+  else if (letter.indexOf('backspace.png') != -1) {
+console.log('backspace!');
     myText = myText.substring(0,cursor-1) + myText.substring(cursor);
     additionLength = -1;
   }
-  else if (letter == '[&laquo;w]' || letter == '[«w]') {
+  else if (letter.indexOf('backspace_w.png') != -1) {
     additionLength = 0 - getCurrentWord().length;
     myText = myText.substring(0, cursor-getCurrentWord().length) + myText.substring(cursor);
   }
@@ -375,7 +377,7 @@ function selectletter(letter) {
   else if (letter == '[store') {
      addToMemory(getCurrentWord());
   }
-  else if (letter == '[new') {
+  else if (letter.indexOf('new-form.png') != -1) {
     if(focused == typer.getElementById('url') && typer.getElementById('url').value != '') {
       unhighlight(currentIndex);
       currentArray = arrayGroup; currentIndex = 0;
@@ -391,13 +393,13 @@ function selectletter(letter) {
       myText = null;
     }
   }
-  else if (letter == '[&#8594;' || letter == '[→') {
+  else if(letter.indexOf('tab.png') != -1) {
     advanceFocus();
     prevText = focused.value;
     cursor = focused.value.length + 1;
   }
   else if(letter.indexOf('drive_disk.png') != -1) {
-    writeToServer(myText);
+    writeToServer();
   }
   else if(letter.indexOf('previous.png') != -1) {
     updateText(cursor-1, myText);
@@ -418,7 +420,7 @@ function selectletter(letter) {
   if (additionLength == 0) additionLength = addition.length;
   lastKeyChangedText = (additionLength != 0);
   myText = myText.substring(0, cursor) + addition + myText.substring(cursor);
-  if (letter != '[&#8594;' && letter != '[→') {
+  if(letter.indexOf('tab.png') == -1) {
     if(lastKeyChangedText) updateText(cursor + additionLength, myText);
   }
   prediction();
@@ -478,6 +480,7 @@ function updateCursor() {
 }
 
 function updateText(newcursor, myText) {
+console.log("In updateText().  Mytext = " + myText);
   focused.value = myText;
   if(newcursor != null) {
      if (focused.selectionStart || focused.selectionStart == '0') {
