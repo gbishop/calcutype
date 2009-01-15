@@ -5,9 +5,9 @@
 
 
 <script type="text/javascript" src="files/common.js"></script>
-<!-- <script type="text/javascript" src="firebug-lite-compressed.js"></script> -->
 
 <script type="text/javascript" src="files/Gutenberg 10,000.js"></script>
+<script type="text/javascript" src="files/wiki570academicsupp.js"></script>
 <script type="text/javascript">
 <!--
 var overtype = true;
@@ -87,7 +87,7 @@ function writeToServer() {
     textboxes[i].parentNode.replaceChild(newNode, textboxes[i] )
   }
   var allContent = frames['form'].document.getElementsByTagName('html')[0];
-  typer.body.innerHTML += '<form action="http://neverland.ncssm.edu/~condonw/Java/htmlmirror.php" id="bootstrapform" method="post"><textarea id="allHTML" name="allHTML">' + allContent.innerHTML + '</textarea></form>'
+  typer.body.innerHTML += '<form action="http://gb-cs.cs.unc.edu/calcutype/files/htmlmirror.php" id="bootstrapform" method="post"><textarea id="allHTML" name="allHTML">' + allContent.innerHTML + '</textarea></form>'
   typer.getElementById('bootstrapform').submit();
 }
 

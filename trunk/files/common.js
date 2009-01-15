@@ -432,6 +432,7 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
 
 function solveEquation() {
   var returned;
+  if(!focused) addToMemory('unfocused!');
   if(focused.selectionStart || focused.selectionStart == "0")
     returned = solveEquationMirror(focused.value.substring(0, focused.selectionStart));
   else
