@@ -2,9 +2,12 @@
 COMMENT: Most variables are initialized in their own file.
 GENERAL NOTE:  I am setting cursor so that it equals selectionStart in Firefox:  one after the last-typed character.
 DOCUMENTATION:  substring arguments are startAt and endBefore.
+To enable console logging, add ?clog=true to the URL.
+(NOTE:  Must have Firebug installed and have enabled the Console panel for this file.  You can get Firebug from http://getfirebug.com .)
 */
 
 
+var clog = false;
 var digits = new Array('1','2','3','4','5','6','7','8','9','0');
 var operators = new Array('+','-','*','/','=', '(',')', '%', '&pi;');
 var ABC = new Array(
@@ -347,7 +350,7 @@ function selectletter(letter) {
     else
       overtype = false;
   }
-console.log(letter + ' cursor at ' + cursor);
+if(clog) console.log(letter + ' cursor at ' + cursor);
   if(letter.charAt(0) !='[' && letter.indexOf('<img') == -1) {
     if (letter == '&pi;')
       addition = 'π';
@@ -361,7 +364,6 @@ console.log(letter + ' cursor at ' + cursor);
   else if (letter.indexOf('pilcrow.png') != -1)
     addition = '\n';
   else if (letter.indexOf('backspace.png') != -1) {
-console.log('backspace!');
     myText = myText.substring(0,cursor-1) + myText.substring(cursor);
     additionLength = -1;
   }
@@ -480,7 +482,7 @@ function updateCursor() {
 }
 
 function updateText(newcursor, myText) {
-console.log("In updateText().  Mytext = " + myText);
+if(clog) console.log("In updateText().  Mytext = " + myText);
   focused.value = myText;
   if(newcursor != null) {
      if (focused.selectionStart || focused.selectionStart == '0') {
