@@ -1,7 +1,6 @@
 <html><head><script type="text/javascript">
 function makeJsWordList(/*String*/ list, /*boolean*/putAtBeginning) {
-  var beginninginfo = '/*Click cntrl+a to select all this text, and save it as a JavaScript file (e.g. yourNameHere.js ) in the "files" directory.  <b>WARNING:  DO NOT USE THE 'SAVE ALL' BUTTON ON THE 'FILE' MENU!!!</b> Then put the following line in your jscalc.html file, immediately after <br />&lt;script type="text/javascript" src="files/Gutenberg 10,000.js"&gt;&lt;/script&gt;<br /> &lt;script type="text/javascript" src="files/yourNameHere.js"&gt;&lt;/script&gt;<br />*/<br /><br />'
-
+  var beginninginfo = '/*Click cntrl+a to select all this text, and save it as a JavaScript file (e.g. yourNameHere.js ) in the "files" directory.  <b>WARNING:  DO NOT USE THE "SAVE ALL" BUTTON ON THE "FILE" MENU!!!</b> Then put the following line in your jscalc.html file, immediately after <br />&lt;script type="text/javascript" src="files/Gutenberg 10,000.js"&gt;&lt;/script&gt; <br /> &lt;script type="text/javascript" src="files/yourNameHere.js"&gt;&lt;/script&gt; <br />*/ <br /><br />';
   list = list.replace('\n', '",\n"', 'g');
   list = 'new Array("' + list;
   list += '")'
