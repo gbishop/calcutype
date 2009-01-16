@@ -89,7 +89,8 @@ function fromMemory(index) {
   var myText = focused.value;
   var typedWord = getCurrentWord()
   var toInsert = memory[index];
-  if(caplock)	//If caps lock is on, continue it as all capitals.
+  if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() 	//If first two letters caps, continue as all caps.
+           && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())
     toInsert = toInsert.toUpperCase();
   for(var k = 0; k < typedWord.length; k++) {
     var cL = typedWord.charAt(k);
@@ -379,12 +380,12 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
   else if (letter == '[store') {
      addToMemory(getCurrentWord());
   }
-  else if (letter.indexOf('new-form.png') != -1) {
+  else if (letter.indexOf('new-form.PNG') != -1) {
     if(focused == typer.getElementById('url') && typer.getElementById('url').value != '') {
       unhighlight(currentIndex);
       currentArray = arrayGroup; currentIndex = 0;
       highlight(currentIndex);
-      typer.getElementById('loader').style.visibility = 'hidden';
+      typer.getElementById('loader').style.visibility = 'collapse';
       loadNewForm(typer.getElementById('url').value);
     }
     else {
@@ -432,7 +433,10 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
 
 function solveEquation() {
   var returned;
-  if(!focused) addToMemory('unfocused!');
+  if(!focused) {
+    addToMemory('unfocused!');
+    return;
+  }
   if(focused.selectionStart || focused.selectionStart == "0")
     returned = solveEquationMirror(focused.value.substring(0, focused.selectionStart));
   else
