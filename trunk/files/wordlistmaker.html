@@ -1,0 +1,27 @@
+<html><head><script type="text/javascript">
+function makeJsWordList(/*String*/ list, /*boolean*/putAtBeginning) {
+  var beginninginfo = '/*Click cntrl+a to select all this text, and save it as a JavaScript file (e.g. yourNameHere.js ) in the "files" directory.  <b>WARNING:  DO NOT USE THE 'SAVE ALL' BUTTON ON THE 'FILE' MENU!!!</b> Then put the following line in your jscalc.html file, immediately after <br />&lt;script type="text/javascript" src="files/Gutenberg 10,000.js"&gt;&lt;/script&gt;<br /> &lt;script type="text/javascript" src="files/yourNameHere.js"&gt;&lt;/script&gt;<br />*/<br /><br />'
+
+  list = list.replace('\n', '",\n"', 'g');
+  list = 'new Array("' + list;
+  list += '")'
+  if(putAtBeginning) {
+    list = beginninginfo + '<br />frequent = ' + list + '.concat(frequent);';
+  }
+  else {
+    list = beginninginfo + 'frequent = frequent.concat( ' + list + ' );';
+  }
+  return list;
+}
+</script>
+
+<body>
+<p>Addenda to standard word list (put each word on new line):<br /><textarea id="list" cols="12" rows="30"></textarea>
+<br />
+Put at beginning? <input type="checkbox" id="putAtBeginning" />
+<br /><input type="submit" value="Process"
+onclick="document.body.innerHTML = makeJsWordList(document.getElementById('list').value, document.getElementById('putAtBeginning').checked);" />
+</p>
+<p style="font-weight:bold">Note:  CalcuType must be downloaded to your local computer to use this feature.</p>
+</body>
+</html>
