@@ -32,48 +32,43 @@ border-style: outset;
 
 <body onload="parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
 
+  <table class="data-table">
 <script type="text/javascript">   
 <!--
   parent.typer = document;
   if(window.innerWidth) var width = window.innerWidth;
   else var width = parent.document.body.clientWidth;
-  var i = parent.arrayGroup.length-1;
-  document.write('<table><tr id="cell-1' + i + '">');
-  for(var j = 0;j<parent.arrayGroup[i].length;j++) {
-    document.write('<td id="cell' + i + j + '" style="border:solid #000000 1px">');
-    document.write('<a onClick="parent.fromMemory(' + j + ');" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.arrayGroup[i][j] + '</a>');
-    document.write('<img src="spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
-  }
-  for(var k = parent.arrayGroup[i].length; k < parent.MAX_ARRAY_LENGTH; k++) {
-    document.write('<td id="cell' + i + k);
-    document.write('" style="border:solid #000000 1px');
-    document.write('" ><a onClick="parent.fromMemory(' + j + ');" href="javascript:;" id="anchor' +i+k+'" style="font-size: '+ parent.KEY_SIZE + 'px;"></a>');
-   document.write('<img src="spacer.GIF" width="15px" height="0px" />');
-  }
-    document.write('</td></tr></table>');
-var bord = false;
-for(var i=0; i < parent.arrayGroup.length-1; i++) {
-  if(i == (parent.arrayGroup.length - 1)) bord = true;
-  document.write('<table><tr id="cell-1' + i + '">');
-  for(var j = 0;j<parent.arrayGroup[i].length;j++) {
-    document.write('<td id="cell' + i + j);
-    if(bord == true) document.write('" style="border:solid #000000 1px');
-    document.write('"><a onClick="parent.selectletter(this.innerHTML);" href="javascript:;" id="anchor' + i + j + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.arrayGroup[i][j] + '</a>');
+  document.write('<tr id="cell-1' + parent.indexOf(parent.arrayGroup, parent.memory) + '">');
+  for(var memdex = 0; memdex < parent.memory.length; memdex++) {
+    document.write('<td id="cell' + parent.indexOf(parent.arrayGroup, parent.memory)  + memdex + '" style="border:solid #000000 1px">');
+    document.write('<a onClick="fromparent.memory(' + memdex + ');" href="javascript:;" id="anchor' + parent.indexOf(parent.arrayGroup, parent.memory)  + memdex + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.memory[memdex] + '</a>');
     document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
   }
-  for(var k = parent.arrayGroup[i].length; k < parent.MAX_ARRAY_LENGTH; k++) {
-    document.write('<td id="cell' + i + j);
-    if(bord == true) document.write('" style="border:solid #000000 1px');
-    document.write('" ><a onClick="parent.selectletter(this.innerHTML);" href="javascript:;" id="anchor' +i+k+'" style="font-size: '+ parent.KEY_SIZE + 'px;"></a>');
-    if(bord == true) document.write('<img src="spacer.GIF" width="' + width/85 + 'px" height="0px" />');
-    document.write('</td>');
+  for(var memplus = parent.memory.length; memplus < parent.MAX_ARRAY_LENGTH; memplus++) {
+    document.write('<td id="cell' + parent.indexOf(parent.arrayGroup, parent.memory) + memplus);
+    document.write('" style="border:solid #000000 1px');
+    document.write('" ><a onClick="fromparent.memory(' + memplus + ');" href="javascript:;" id="anchor' +parent.indexOf(parent.arrayGroup, parent.memory)+memplus+'" style="font-size: '+ parent.KEY_SIZE + 'px;"></a>');
+   document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" />');
+  }
+    document.write('</td></tr></table>');
+
+for(var agindex=0; agindex < parent.arrayGroup.length-1; agindex++) {
+  document.write('<table class="data-table"><tr id="cell-1' + agindex + '">');
+  for(var acol = 0; acol<parent.arrayGroup[agindex].length; acol++) {
+    document.write('<td id="cell' + agindex + acol);
+    document.write('"><a onClick="selectletter(this.innerHTML);" href="javascript:;" id="anchor' + agindex + acol + '" style="font-size: '+ parent.KEY_SIZE + 'px;">' + parent.arrayGroup[agindex][acol] + '</a>');
+    document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
   }
   document.write('</tr></table>');
-  parent.addToMemory(); //to update Memory's look on the screen.
+
+  parent.addToMemory(); //to update parent.memory's look on the screen.
 }
+
 //-->
 </script>
+
 <h1>Caps lock is <span id="caplock">ON</span></h1>
+
 <table><tr id="loader" style="background-color: #cc6600; font-size: 150%;"><td>Type URL or filename of the form to load, including any filename extensions, and then select <img src="files/new-form.png" alt="new" height="20" />. <br />
 <input type="text" id="url" name="url" onkeydown="parent.keyPressed(event);" style="width:90%" />
 </td></tr></table>
