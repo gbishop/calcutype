@@ -452,10 +452,10 @@ function solveEquationMirror(myText) {
   var k = sameText.split(' ');
   if( k[k.length-1].search(/[^0123456789 ]/) == -1 || k[k.length-1] == " ")  //if there're no digits in the last "word"
     return "improper";
-  for(i = 0; i < k.length; i++) {
-    var n = parse(k[i]);
+  for(toparse = 0; toparse < k.length; toparse++) {
+    var parsed = parse(k[toparse]);
   }
-  return Math.round(n*Math.pow(10,precision))/Math.pow(10,precision);
+  return Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
 }
 
 function unhighlight(number)  {
