@@ -177,7 +177,7 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
     <input name="SWITCH1" id="Shift" value="32" type="radio" />
     <label for="Shift">Shift</label><br />
     <input name="SWITCH1" id="cbr" value="221" checked="checked" type="radio" />
-    <label for="cbr">Close bracket</label><br />
+    <label for="cbr">Close bracket <i>[</i></label><br />
     <input name="SWITCH1" id="other1" value="-" type="radio" onchange="selectingOther1isTrue();" />
     <label for="other1" id="Other1label">Other <i>(Check; then press key)</i></label><br />
   </td>
@@ -191,7 +191,7 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
     <input name="SWITCH2" id="Shift2" value="32" type="radio" />
     <label for="Shift2">Shift</label><br />
     <input name="SWITCH2" id="obr" value="219" checked="checked" type="radio" />
-    <label for="obr">Open bracket</label><br />
+    <label for="obr">Open bracket <i>[</i></label><br />
     <input name="SWITCH2" id="other2" value="-" type="radio" onchange="selectingOther2isTrue();" />
     <label for="other2" id="Other2label">Other <i>(Check; then press key)</i></label><br />
   </td>
@@ -203,7 +203,7 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
     <input name="SWITCH3" id="Shift3" value="32" type="radio" />
     <label for="Shift3">Shift</label><br />
     <input name="SWITCH3" id="fslash" value="220" checked="checked" type="radio" />
-    <label for="fslash">Forward slash</label><br />
+    <label for="fslash">Forward slash <i>\</i></label><br />
     <input name="SWITCH3" id="other3" value="-" type="radio" onchange="selectingOther3isTrue();" />
     <label for="other3" id="Other3label">Other <i>(Check; then press key)</i></label><br />
   </td>
@@ -227,7 +227,7 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
 <td>  <input name="mem_lets" id="mem_lets" value="4" type="text" /></td></tr>
 
 
-<tr><th colspan="2">Colors and Sizes <i>(standard names or hex values)</i></th></tr>
+<tr><th colspan="2">Colors and Sizes <i>(<a href="http://en.wikipedia.org/wiki/Web_colors">standard names or hex values</a>)</i></th></tr>
 <tr>
 <td><label for="HIGHLIGHT_COLOR">Color of highlighting</label></td>
 <td>  <input name="H_COL" id="HIGHLIGHT_COLOR" value="#cc6600" type="text" /></td></tr>
@@ -248,14 +248,15 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
 <tr>
 <td colspan="2">  <input name="reset" id="reset" value="true" checked="checked" type="checkbox" />
   <label for="reset">Reset highlighting to beginning after selection</label></td></tr>
+<tr><td colspan="2"><b>Alphabet:</b></td></tr>
 <tr>
-<td colspan="2">  <input name="Alphabet" id="ABC" value="ABC" checked="checked" type="radio" />
+<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;  <input name="Alphabet" id="ABC" value="ABC" checked="checked" type="radio" />
   <label for="ABC">ABC <i>(normal)</i></label></td></tr>
 <tr>
-<td colspan="2">  <input name="Alphabet" id="ETA" value="ETA" type="radio" />
+<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;   <input name="Alphabet" id="ETA" value="ETA" type="radio" />
   <label for="ETA">ETA <i>(frequency, whole words)</i></label></td> </tr>
 <tr>
-<td colspan="2">  <input name="Alphabet" id="SPA" value="SPA" type="radio" />
+<td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;   <input name="Alphabet" id="SPA" value="SPA" type="radio" />
   <label for="SPA">SPA <i>(frequency, beginnings of words)</i></label></td></tr>
 <tr>
 <td colspan="2">
