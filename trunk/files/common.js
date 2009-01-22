@@ -117,6 +117,7 @@ function fromMemory(index) {
   if(overtype) var newCursor = cursor-typedWord.length + toInsert.length;
   else var newCursor = cursor + toInsert.length;
   updateText(newCursor, myText);
+  prediction();
 }
 
 
@@ -345,7 +346,7 @@ function selectletter(letter) {
   var myText = focused.value;
   var addition = ""; var additionLength = 0;
   memkey = 0;
-  if(currentArray == memory && currentIndex < memory.length - 2) {
+  if(currentArray == memory && currentIndex < memory.length - 1) {
     if(overtype)  //if we aren't completing equations
       return fromMemory(currentIndex);
     else
@@ -357,6 +358,10 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
       addition = 'π';
     else if (caplock == true)
       addition = letter;
+    else if (shifted == true) {
+      addition = letter;
+      shifted = false;
+    }
     else
       addition = letter.toLowerCase();
   }
@@ -376,6 +381,9 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
     caplock = !caplock;
     if(caplock) typer.getElementById("caplock").innerHTML = "ON";
     else typer.getElementById("caplock").innerHTML = "OFF";
+  }
+  else if (letter.indexOf('shift.png') != -1) {
+    shifted = !shifted;
   }
   else if (letter == '[store') {
      addToMemory(getCurrentWord());
@@ -516,7 +524,7 @@ if(clog) console.log("In updateText().  Mytext = " + myText);
 
 
 
-/* The following four functions will stay in their own files.
+/* The following four functions are contained in the individual .html files.
 
 function writeToServer(text) {
 //in newdoc version
