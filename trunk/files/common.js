@@ -89,6 +89,8 @@ function fromMemory(index) {
   var myText = focused.value;
   var typedWord = getCurrentWord()
   var toInsert = memory[index];
+/*
+  //Code to specify capitalization of word.  Now moved to prediction()
   if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() 	//If first two letters caps, continue as all caps.
            && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())
     toInsert = toInsert.toUpperCase();
@@ -98,6 +100,7 @@ function fromMemory(index) {
     if(cL != pL && cL.toLowerCase() == pL.toLowerCase())
       toInsert = toInsert.replace(pL, cL);
   }
+*/
   if (focused.selectionStart || focused.selectionStart == '0') {	//FIREFOX
     cursor = focused.selectionStart;
   }
@@ -117,7 +120,6 @@ function fromMemory(index) {
   if(overtype) var newCursor = cursor-typedWord.length + toInsert.length;
   else var newCursor = cursor + toInsert.length;
   updateText(newCursor, myText);
-  prediction();
 }
 
 
@@ -152,7 +154,7 @@ function indexOf(arr, elem) {
 }
 
 
-function keyPressed(e, code) {
+function keyPressed(/*Event*/ e, /*int*/ code) {
   if(e != null) code = e.keyCode;
   if(SWITCH1 == code && UseTwoSwitchTyping) {
     advanceletter();
@@ -165,6 +167,10 @@ function keyPressed(e, code) {
       currentIndex = 0;
       highlight(currentIndex);
     }
+    else if(currentArray == memory && currentIndex < memory.length - 1) {
+      fromMemory(currentIndex);
+      prediction();
+    }
     else selectletter(currentArray[currentIndex]);
     killEvent(e);
   }
@@ -172,7 +178,7 @@ function keyPressed(e, code) {
     runThroughMemory(focused);
     killEvent(e);
   }
-  else {
+  else {  //If user is typing in the <textarea /> by the normal keyboard
     memkey = 0;
     setTimeout("updateCursor()",10);
     setTimeout("prediction()",25);
@@ -301,17 +307,32 @@ function prediction() {
           jj++;
           continue;
         }
+
+  var toInsert = frequent[jj];
+  var typedWord = getCurrentWord();
+  //Code to specify capitalization of word.  Moved from fromMemory()
+  if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() 	//If first two letters caps, continue as all caps.
+           && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())
+    toInsert = toInsert.toUpperCase();
+  for(var k = 0; k < typedWord.length; k++) {
+    var cL = typedWord.charAt(k);
+    var pL = toInsert.charAt(k);
+    if(cL != pL && cL.toLowerCase() == pL.toLowerCase())
+      toInsert = toInsert.replace(pL, cL);
+  }
+
+
         if(oneSug == "") {
-          oneSug = frequent[jj];
+          oneSug = toInsert;
           jj++;
           overtype = true;  //reset in case an equation was previously used
         }
         else if (twoSug == "") {
-          twoSug = frequent[jj];
+          twoSug = toInsert;
           jj++;
         }
         else {
-          threeSug = frequent[jj];
+          threeSug = toInsert;
         }
       }
     }
@@ -341,17 +362,13 @@ function runTimer(array, index) {
   setTimeout("runTimer(currentArray, currentIndex);", timerLength);
 }
 
-
+/*
+Note that this is never called on the word-prediction slots; for them, fromMemory(index) is called directly from keyPressed(e, code).
+*/
 function selectletter(letter) {
   var myText = focused.value;
   var addition = ""; var additionLength = 0;
   memkey = 0;
-  if(currentArray == memory && currentIndex < memory.length - 1) {
-    if(overtype)  //if we aren't completing equations
-      return fromMemory(currentIndex);
-    else
-      overtype = false;
-  }
 if(clog) console.log(letter + ' cursor at ' + cursor);
   if(letter.charAt(0) !='[' && letter.indexOf('<img') == -1) {
     if (letter == '&pi;')

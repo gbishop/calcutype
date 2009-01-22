@@ -131,13 +131,13 @@ document.write('onclick="killEvent(event);"></textarea>');
   document.write('<tr id="cell-1' + indexOf(arrayGroup, memory) + '">');
   for(var memdex = 0; memdex < memory.length; memdex++) {
     document.write('<td id="cell' + indexOf(arrayGroup, memory)  + memdex + '" style="border:solid #000000 1px">');
-    document.write('<a onClick="fromMemory(' + memdex + ');" href="javascript:;" id="anchor' + indexOf(arrayGroup, memory)  + memdex + '" style="font-size: '+ KEY_SIZE + 'px;">' + memory[memdex] + '</a>');
+    document.write('<a onClick="fromMemory(' + memdex + '); prediction();" href="javascript:;" id="anchor' + indexOf(arrayGroup, memory)  + memdex + '" style="font-size: '+ KEY_SIZE + 'px;">' + memory[memdex] + '</a>');
     document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
   }
   for(var memplus = memory.length; memplus < MAX_ARRAY_LENGTH; memplus++) {
     document.write('<td id="cell' + indexOf(arrayGroup, memory) + memplus);
     document.write('" style="border:solid #000000 1px');
-    document.write('" ><a onClick="fromMemory(' + memplus + ');" href="javascript:;" id="anchor' +indexOf(arrayGroup, memory)+memplus+'" style="font-size: '+ KEY_SIZE + 'px;"></a>');
+    document.write('" ><a onClick="fromMemory(' + memplus + '); prediction();" href="javascript:;" id="anchor' +indexOf(arrayGroup, memory)+memplus+'" style="font-size: '+ KEY_SIZE + 'px;"></a>');
    document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" />');
   }
     document.write('</td></tr></table>');
