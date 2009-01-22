@@ -93,6 +93,7 @@ function writeToServer() {
 }
 
 function loadNewForm(newurl) {
+  typer.getElementById('loader').style.visibility="collapse";
   document.getElementById('form').src = newurl;
   setTimeout("readyForm();", 500);
 }

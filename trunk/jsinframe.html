@@ -30,7 +30,7 @@ border-style: outset;
   
 </head>
 
-<body onload="parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
+<body onload="if(parent.startLoaded != 'about.html#typing') parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
 
   <table class="data-table">
 <script type="text/javascript">   
