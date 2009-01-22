@@ -39,7 +39,8 @@ var focused;
 var typer = document;
 var overtype = true;
 var memkey = 0;
-var caplock = true;
+var caplock = false;
+var shifted = false;  //says whether the shift key has last been pressed
 var MAX_ARRAY_LENGTH = 10;
 var Alphabet = ABC;
 //var frequent = new Array(); //frequency table is imported from external file at top
@@ -48,8 +49,7 @@ var currentIndex = 0; //start with first member of arrayGroup highlighted
 
 //The keyboard row that's different...
 
-var funct = new Array('<img src="files/pilcrow.png" alt="&para;" />', '<img src="files/drive_disk.png" alt="save" />',
- '<img src="files/alpha.png" alt="cap" />', '<img src="files/backspace.png" alt="backspace" />','<img src="files/backspace_w.png" alt="backspace one word" />');
+var funct = new Array('<img src="files/shift.png" alt="shift" />', '<img src="files/pilcrow.png" alt="&para;" />', '<img src="files/drive_disk.png" alt="save" />', '<img src="files/alpha.png" alt="cap" />', '<img src="files/backspace.png" alt="backspace" />','<img src="files/backspace_w.png" alt="backspace one word" />');
  var intarea = false;
 
 var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
@@ -156,6 +156,6 @@ for(var agindex=0; agindex < arrayGroup.length-1; agindex++) {
 //-->
 </script>
 </table>
-<h1>Caps lock is <span id="caplock">ON</span></h1>
+<h1>Caps lock is <span id="caplock">OFF</span></h1>
 </body>
 </html>
