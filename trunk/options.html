@@ -66,7 +66,7 @@ function processForm (form) {
   CurrVar=form.startLoaded.value; myURL = myURL + "startLoaded=" + CurrVar + "&";
   CurrVar = "";
   for (var b = 0; b < form.addi.length; b++) {
-    console.log(b + "\t" + form.addi[b].value);
+    if(location.href.indexOf("?clog=true") != -1) console.log(b + "\t" + form.addi[b].value);
     if(form.addi[b].value != "") {
       CurrVar += form.addi[b].value;
       CurrVar += "_";
@@ -177,7 +177,7 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
     <input name="SWITCH1" id="Shift" value="32" type="radio" />
     <label for="Shift">Shift</label><br />
     <input name="SWITCH1" id="cbr" value="221" checked="checked" type="radio" />
-    <label for="cbr">Close bracket <i>[</i></label><br />
+    <label for="cbr">Close bracket <i>]</i></label><br />
     <input name="SWITCH1" id="other1" value="-" type="radio" onchange="selectingOther1isTrue();" />
     <label for="other1" id="Other1label">Other <i>(Check; then press key)</i></label><br />
   </td>
