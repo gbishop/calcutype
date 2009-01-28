@@ -6,6 +6,7 @@ To enable console logging, add ?clog=true to the URL.
 (NOTE:  Must have Firebug installed and have enabled the Console panel for this file.  You can get Firebug from http://getfirebug.com .)
 */
 
+var gotomem = true; //Reset highlighting to memory row when word completion suggestions shown.
 
 var clog = false;
 var digits = new Array('1','2','3','4','5','6','7','8','9','0');
@@ -65,6 +66,7 @@ function advanceletter() {
       }
       else { //... and if we run off the end three times, reset it to the beginning.
         if(reset) currentIndex = 0;
+        else if(gotomem == true && memory[0] != "") currentIndex == arrayGroup.length - 1;
         else currentIndex = indexOf(arrayGroup, currentArray);
         currentArray = arrayGroup;
         repeat = alrepeat;
@@ -136,6 +138,7 @@ function getCurrentWord() {
 }
 
 function highlight(number)  {
+  if(clog) console.log("Array: " + indexOf(arrayGroup, currentArray) + " Element: " + currentIndex);
   cell = typer.getElementById("cell" + indexOf(arrayGroup, currentArray) + String(number));
   cell.style.backgroundColor = H_COL
 //If in memory, expand the word
@@ -440,11 +443,6 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
   else if(letter.indexOf('last.png') != -1)
     updateText(focused.value.replace(/\s/g, ' ').indexOf(' ', cursor)+1, myText);
   repeat = alrepeat;
-  unhighlight(currentIndex);
-  if(reset) currentIndex = 0;
-  else currentIndex = indexOf(arrayGroup, currentArray);
-  currentArray = arrayGroup;
-  highlight(currentIndex);
   if (additionLength == 0) additionLength = addition.length;
   lastKeyChangedText = (additionLength != 0);
   myText = myText.substring(0, cursor) + addition + myText.substring(cursor);
@@ -452,6 +450,13 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
     if(lastKeyChangedText) updateText(cursor + additionLength, myText);
   }
   prediction();
+  unhighlight(currentIndex);
+  if(clog) console.log(gotomem == true && memory[0] != "");
+  if(gotomem == true && memory[0] != "") currentIndex = arrayGroup.length - 1;
+  else if(reset) currentIndex = 0;
+  else currentIndex = indexOf(arrayGroup, currentArray);
+  currentArray = arrayGroup;
+  highlight(currentIndex);
   return null;
 }
 
