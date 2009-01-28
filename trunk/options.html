@@ -57,6 +57,7 @@ function processForm (form) {
   CurrVar=form.KEY_SIZE.value; myURL = myURL + "KEY_SIZE=" + CurrVar + "&";
   CurrVar=form.repeat.value; myURL = myURL + "repeat=" + CurrVar + "&";
   CurrVar=form.reset.checked; myURL = myURL + 'reset=' + CurrVar + '&';
+  CurrVar=form.gotomem.checked; myURL = myURL + 'gotomem=' + CurrVar + '&';
   CurrVar=form.TEXT_SIZE.value; myURL = myURL + "TEXT_SIZE=" + CurrVar + "&";
   for (var b = 0; b < form.Alphabet.length; b++) {
     if (form.Alphabet[b].checked)
@@ -248,6 +249,9 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
 <tr>
 <td colspan="2">  <input name="reset" id="reset" value="true" checked="checked" type="checkbox" />
   <label for="reset">Reset highlighting to beginning after selection</label></td></tr>
+<tr>
+<td colspan="2">  <input name="gotomem" id="gotomem" value="true" checked="checked" type="checkbox" />
+  <label for="gotomem">Reset highlighting to word completion row when word completion is active</label></td></tr>
 <tr><td colspan="2"><b>Alphabet:</b></td></tr>
 <tr>
 <td colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;  <input name="Alphabet" id="ABC" value="ABC" checked="checked" type="radio" />
