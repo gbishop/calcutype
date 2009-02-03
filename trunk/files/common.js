@@ -212,8 +212,9 @@ function killEvent(eventObject) {
 
 
 
-function parse(ele) {
+function parse(oele) {
   try {
+    var ele = oele;
     ele = ele.replace('π', Math.PI);
     ele = ele.replace('e', Math.exp(1));
     if(use_rad == true) {
@@ -240,9 +241,12 @@ function parse(ele) {
        va = ale.concat('*', ele.substring(ele.search(bfparen)+1));
        ele = va;
     }
-    return eval(ele);
+    evaled = eval(ele);
+    if(evaled === String(evaled)) //if it's a string
+      return eval(oele);
+    else return evaled;
   }
-  catch(except) {return "improper";}
+  catch(except) {return "=improper";}
 }
 
 
@@ -278,11 +282,12 @@ function prediction() {
   var twoSug = "";
   var threeSug = "";
   try {
-    var msol = solveEquation();
+    var msol = solveEquation();  //Note that ssol is a string, eg "=5"
     var ssol = String(msol);
-    if(ssol != "improper" && ssol != "NaN" && ssol.indexOf("[") == -1) {
-      oneSug = "=" + msol;
-      overtype = false;
+    if(clog) console.log("msol=" + msol);
+    if(ssol != "=improper" && ssol != "=NaN" && ssol.indexOf("[") == -1) {
+      oneSug = ssol;
+      //overtype is now reset in solveEquation()
     }
   }
   catch(e) {  //This should never happen.
@@ -460,7 +465,8 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
   return null;
 }
 
-
+/* Locates the cursor and calls solveEquationMirror on everything before the cursor.  If this returns an error, it calls solveEquationMirror on focused.value
+*/
 function solveEquation() {
   var returned;
   if(!focused) {
@@ -480,12 +486,20 @@ function solveEquation() {
 function solveEquationMirror(myText) {
   var sameText = myText.replace(/\n/g, ' ');
   var k = sameText.split(' ');
-  if( k[k.length-1].search(/[^0123456789 ]/) == -1 || k[k.length-1] == " ")  //if there're no digits in the last "word"
-    return "improper";
+  if(clog) console.log(k);
+  if(k[k.length-1] == "") return "=NaN";
   for(toparse = 0; toparse < k.length; toparse++) {
     var parsed = parse(k[toparse]);
   }
-  return Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
+  if(clog) console.log(parsed);
+  if(parsed === String(parsed)) {
+    if(clog) console.log("It's a string!");
+    overtype = true;
+    return parsed;
+  }
+  else overtype = false;
+  return "=" + Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
+  //Note this last line returns NaN on anything except an actual number.
 }
 
 function unhighlight(number)  {

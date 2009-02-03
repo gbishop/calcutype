@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>About Calcutype</h1>
-<p>Calcutype, version 0.76
+<p>Calcutype, version 0.80
 <br />Written 2008-2009, William Condon, with Dr. Gary Bishop <i>(<a href="mailto:gb@cs.unc.edu">Email: gb@cs.unc.edu</a>)</i>
 <br /><strong style="text-align:center">Note:  JavaScript must be enabled to use this program!</strong> 
 <i><script type="text/javascript">document.write("JavaScript is currently enabled on your browser.");</script></i>
@@ -22,7 +22,7 @@
 <h1>Getting Started</h1>
 <p>You should probably begin at the <a href="options.html">options page</a>, which lets you set certain features before beginning.  You only need to visit the options page once - afterwards, you can bookmark that particular version of the typer in your browser's bookmarks list.  From the options page, you can proceed to either fill out an existing form or write your own document.  Unfortunately, only <a href="http://en.wikipedia.org/wiki/plain_text">plain text</a> is supported at the moment - that is, no <i>italics</i>, <b>bold face</b>, or different text sizes.</p>
 <p>To proceed directly to the program with default settings, click here to <a href="framebuilder.html">fill out an existing form</a> or <a href="jscalc.html">write your own document</a>.  <b><i>Note:  CalcuType must be downloaded to your local computer to fill out a form.</i></b></p>
-<p><i>SUPPORTED BROWSERS:  CalcuType was tested in Firefox 3.0.4, Internet Explorer 7, Epiphany (version not known), and Google Chrome 1.0.154.46.  While it works in Internet Explorer, we strongly recommend that (if possible) you <a href="http://www.getfirefox.com">get the free Firefox web browser</a>.</i></p>
+<p><i>SUPPORTED BROWSERS:  CalcuType is known to work in Firefox 3.0.4 and Internet Explorer 7.  The new document version also seems to work in Epiphany (version not known), and Google Chrome 1.0.154.46.  However, we strongly recommend that (if possible) you <a href="http://www.getfirefox.com">get the free Firefox web browser</a>.</i></p>
 
 <hr />
 <h2 id="typing">Typing</h2>
@@ -47,6 +47,9 @@
 <h2 id="completion">Word Completion</h2>
 <p>Word completion is still in a fairly primitive state right now.  We're riding off
 a list of the 10000 most commonly used words in the <a href="http://www.gutenberg.org">Project Gutenberg</a> electronic books, taken from <a href="http://en.wiktionary.org/wiki/Wiktionary:Frequency_lists/Project_Gutenberg_1-10000">Wiktionary</a>.  To this is added a list of the <q>570 word families which were selected because they appear with great frequency in a broad range of academic texts</q>, also taken from <a href="http://simple.wiktionary.org/wiki/Wiktionary:Academic_word_list">Wictionary</a>.  Basically, the program automatically puts into memory the first three words in the list whose first letters match what you're typing.</p>
+<p>You can tell CalcuType to automatically suggest a certain word whenever you type an abbreviation.  For example, to have CalcuType suggest <tt>English</tt> whenever you type <tt>en</tt>, type:
+<br /><tt>en="English"</tt></p>
+
 <p style="font-style:italic; font-weight:bold;">Click here to <a href="files/wordlistmaker.html">add your own words to the word list</a>.  (CalcuType must be downloaded to your local computer to use this feature.)</p>
 
 <hr />
@@ -100,11 +103,11 @@ a list of the 10000 most commonly used words in the <a href="http://www.gutenber
 almost no restrictions whatsoever.  You may copy it, give it away or
 re-use it under the terms of the <a href="http://gutenberg.net/license">Project Gutenberg License</a> included with this eBook or online at www.gutenberg.net</q>
 Then, it was compiled - compilation licensed under the <a href="http://www.gnu.org/copyleft/fdl.html">GNU Free Documentation License</a>
-Then, I assembled it for JavaScript.  I release my changes into the public domain, effective when this program is posted on the World Wide Web.</p>
+Then, I assembled it for JavaScript and edited it to include only real English words.  I release my changes into the public domain.</p>
 </li>
 <li>Various icons, from <a href="http://www.famfamfam.com/lab/icons/silk/">FamFamFam.com</a>, licensed under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution 2.5 License</a>.</li>
 <li>Several lines marked in the code, taken from a programming website.  I think these are uncopyrightable minimal creativity, but I list it to be complete.</li>
-<li>The rest of the program, copyright (c) 2008-2009, Mr. William Condon and Dr. Gary Bishop.  It is currently licensed under <a href="http://www.opensource.org/licenses/mit-license.php">the Expat License, sometimes referred to as the MIT License</a>.  This is compatible with almost any other license in existence, including the GNU Public License.
+<li>The rest of the program, copyright (c) 2008-2009, Mr. William Condon and Dr. Gary Bishop.  We license it under <a href="http://www.opensource.org/licenses/mit-license.php">the Expat License, sometimes referred to as the MIT License</a>.  This is compatible with almost any other license in existence, including the GNU Public License.
 <p>
 Copyright (c) 2008-2009, Mr. William Condon and Dr. Gary Bishop.<br />
 
