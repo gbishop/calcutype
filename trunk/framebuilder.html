@@ -89,7 +89,7 @@ function writeToServer() {
     textboxes[i].parentNode.replaceChild(newNode, textboxes[i] )
   }
   var allContent = frames['form'].document.getElementsByTagName('html')[0];
-  typer.body.innerHTML += '<form action="http://gb-cs.cs.unc.edu/calcutype/files/htmlmirror.php" id="bootstrapform" method="post"><textarea id="allHTML" name="allHTML">' + allContent.innerHTML + '</textarea></form>'
+  typer.body.innerHTML += '<form action="http://gb-cs.cs.unc.edu/calcutype/files/htmlmirror.php" id="bootstrapform" method="post" target="_parent"><textarea id="allHTML" name="allHTML">' + allContent.innerHTML + '</textarea></form>'
   typer.getElementById('bootstrapform').submit();
 }
 
@@ -166,7 +166,8 @@ function readyForm() {
 </head>
 <frameset cols = "40%,60%">
 <frame src = "jsinframe.html" name = "typer" id="typer" />
-<frame src = "about.html#typing" name = "form" id="form" />
+<!-- <frame src = "about.html#typing" name = "form" id="form" /> -->
+<frame src = "files/uploading.html" name = "form" id="form" />
 <noframes>
 <body>
 <h1><a href="jscalc.html">Click here to load the no-frames version of this program.</a></h1>

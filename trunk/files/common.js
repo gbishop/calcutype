@@ -41,8 +41,7 @@ var cursor = 0;
 var lastKeyChangedText = false;
 
 
-/*This method can also be called without arguments
-to simply re-spell-out memory on the screen.
+/*This method is called to add a word to the Memory list.  (This was before version 0.81).  It can also be called without arguments to simply re-spell-out memory on the screen.
 */
 function addToMemory(answer) {
   if(answer != null) memory.splice(3, 0, answer);
@@ -54,6 +53,7 @@ function addToMemory(answer) {
   }
 }
 
+/* This is called from keyPressed(e, code) when SWITCH1 is pressed.  It advances highlighting from one letter or row to the next on the virtual keyboard. */
 function advanceletter() {
   unhighlight(currentIndex);
   try {
@@ -82,7 +82,7 @@ alert("Exception!  Please contact the programmers!\n" + except + "\n" + indexOf(
 }
 
 
-
+/* This method is called when an option on the Memory row is selected.  If it is a word-completion suggestion, the beginning of the word is replaced. */
 function fromMemory(index) {
   if(index > memory.length - 2) { //if it's "store"
     selectletter(memory[index]);
@@ -91,18 +91,6 @@ function fromMemory(index) {
   var myText = focused.value;
   var typedWord = getCurrentWord()
   var toInsert = memory[index];
-/*
-  //Code to specify capitalization of word.  Now moved to prediction()
-  if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() 	//If first two letters caps, continue as all caps.
-           && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())
-    toInsert = toInsert.toUpperCase();
-  for(var k = 0; k < typedWord.length; k++) {
-    var cL = typedWord.charAt(k);
-    var pL = toInsert.charAt(k);
-    if(cL != pL && cL.toLowerCase() == pL.toLowerCase())
-      toInsert = toInsert.replace(pL, cL);
-  }
-*/
   if (focused.selectionStart || focused.selectionStart == '0') {	//FIREFOX
     cursor = focused.selectionStart;
   }
@@ -124,7 +112,7 @@ function fromMemory(index) {
   updateText(newCursor, myText);
 }
 
-
+/*  This method is called from within other methods to get the last word or word fragment before the cursor. */
 function getCurrentWord() {
   if (focused.selectionStart || focused.selectionStart == '0') {  // FIREFOX support
     cursor = focused.selectionStart;
@@ -137,6 +125,7 @@ function getCurrentWord() {
   else return "";
 }
 
+/* This method simply highlights the proper spot on the virtual keyboard.  If it is in Memory, it expands the highlighted word so all of it, instead of just the first mem_lets letters, is showing.  (This does not apply to word-completion suggestions.) */
 function highlight(number)  {
   if(clog) console.log("Array: " + indexOf(arrayGroup, currentArray) + " Element: " + currentIndex);
   cell = typer.getElementById("cell" + indexOf(arrayGroup, currentArray) + String(number));
@@ -145,7 +134,7 @@ function highlight(number)  {
   if(currentArray == memory && cell.title != "") cell.firstChild.innerHTML = cell.title;
 }
 
-
+/* I can't believe JavaScript doesn't provide this functionality.  Well, I had to write it myself.  If it doesn't find the index, it returns -1, just like in Java. */
 function indexOf(arr, elem) {
   for(var i = 0; i < arr.length; i++) {
     if (arr[i] == elem) {
@@ -156,7 +145,7 @@ function indexOf(arr, elem) {
   return -1;
 }
 
-
+/*  General all-purpose function called when a key is pressed. */
 function keyPressed(/*Event*/ e, /*int*/ code) {
   if(e != null) code = e.keyCode;
   if(SWITCH1 == code && UseTwoSwitchTyping) {
@@ -189,9 +178,9 @@ function keyPressed(/*Event*/ e, /*int*/ code) {
 }
 
 
-//This method kills an event by every way possible.  Thanks to Dr. Bishop for this code.
-//Thanks to "http://siderite.blogspot.com/2006/05/cancel-kill-murder-javascript-event.html" for the first three lines.
-
+/* This method kills an event by every way possible.  Thanks to Dr. Bishop for this code.
+Thanks to "http://siderite.blogspot.com/2006/05/cancel-kill-murder-javascript-event.html" for the first three lines.
+*/
 function killEvent(eventObject) {
   eventObject.cancel=true;
   eventObject.returnValue=false;
@@ -211,7 +200,7 @@ function killEvent(eventObject) {
 }
 
 
-
+/* This function is called from solveEquationMirror(myText) to eval() individual "words".  It also expands the function abbreviations if it is a mathematical expression. */
 function parse(oele) {
   try {
     var ele = oele;
@@ -249,7 +238,7 @@ function parse(oele) {
   catch(except) {return "=improper";}
 }
 
-
+/* This method gets the options values out of the URL.  Note that it doesn't understand % encoding.  It is called from JavaScript in the <head /> of each file. */
 function parseURL(url) {
  if(url == null) url = location.href;
   var optionsWithValues = url.substring(url.indexOf("?")+1).split("&");
@@ -277,6 +266,8 @@ function parseURL(url) {
   }
 }
 
+/* First calls solveEquation() to see if it should show a math answer or variable expansion.  If solveEquation() returns invalid, it goes on a linear search of frequency lists for the top three words to begin with getCurrentWord().  Then, it adds them directly to Memory. 
+*/
 function prediction() {
   var oneSug = "";
   var twoSug = "";
@@ -357,12 +348,16 @@ function prediction() {
     typer.getElementById("anchor"+indexOf(arrayGroup, memory)+j).innerHTML = memory[j];
 }
 
+/* Called when "\" (or other choice set in the Options page) is pressed.  Calls fromMemory(memkey) with the appropriate index and advances that index.  (Note that index is reset in keyPressed(e, code).
+*/
 function runThroughMemory() {
   fromMemory(memkey);
   memkey++;
   if(memkey==memory.length-1) memkey=0;
 }
 
+/* Called ONLY when one-switch-typing is set.  Advances letter after each timerLength and re-calls itself by calling setTimeout().
+*/
 function runTimer(array, index) {
   if(NOW_SCANNING && currentArray == array && currentIndex == index){  //I don't know what'd ever make it false... maybe a key?
     advanceletter();
@@ -370,7 +365,7 @@ function runTimer(array, index) {
   setTimeout("runTimer(currentArray, currentIndex);", timerLength);
 }
 
-/*
+/*  The general selection of letters, from a lookup table or by simply adding the letter if it's a normal letter.
 Note that this is never called on the word-prediction slots; for them, fromMemory(index) is called directly from keyPressed(e, code).
 */
 function selectletter(letter) {
@@ -419,11 +414,13 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
       currentArray = arrayGroup; currentIndex = 0;
       highlight(currentIndex);
       typer.getElementById('loader').style.visibility = 'collapse';
+      typer.getElementById('uploader').style.visibility = 'collapse';
       loadNewForm(typer.getElementById('url').value);
     }
     else {
       typer.getElementById('url').value = "";
       typer.getElementById('loader').style.visibility = 'visible';
+      typer.getElementById('uploader').style.visibility = 'visible';
       typer.getElementById('url').focus();
       focused = typer.getElementById('url');
       myText = null;
@@ -483,6 +480,7 @@ function solveEquation() {
     return returned;
 }
 
+/* Breaks myText up into individual words (at spaces and carriage returns; note it does NOT call getCurrentWord() ) and calls parse(oele) on each of them.  If parse(oele) returns a string (in other words, if it's a user-defined variable) it sets overtype to true; otherwise, it sets it to false and returns "=n" for n equal to a number or "NaN". */
 function solveEquationMirror(myText) {
   var sameText = myText.replace(/\n/g, ' ');
   var k = sameText.split(' ');
@@ -502,6 +500,7 @@ function solveEquationMirror(myText) {
   //Note this last line returns NaN on anything except an actual number.
 }
 
+/* Simply unhighlights the proper spot on the virtual keyboard.  If it's in Memory, it compresses it to the first mem_lets letters.  (Note it does NOT do this on word-completion choices. */
 function unhighlight(number)  {
   cell = typer.getElementById("cell" + indexOf(arrayGroup, currentArray) + String(number));
   cell.style.backgroundColor = ''
@@ -530,6 +529,7 @@ function updateCursor() {
   return;
 }
 
+/* Updates focused.value to match myText.  Also puts cursor at newcursor, if it doesn't equal null. */
 function updateText(newcursor, myText) {
 if(clog) console.log("In updateText().  Mytext = " + myText);
   focused.value = myText;
