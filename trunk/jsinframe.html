@@ -30,7 +30,7 @@ border-style: outset;
   
 </head>
 
-<body onload="if(parent.startLoaded != 'files/uploading.html') parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
+<body onload="if(parent.startLoaded != 'about.html#typing') parent.loadNewForm(parent.startLoaded); parent.focused = document.getElementById('url'); document.getElementById('url').focus(); parent.checkSize(); parent.highlight(0);  if(!parent.UseTwoSwitchTyping) parent.runTimer();" onclick="parent.keyPressed(null, -2);">
 
   <table class="data-table">
 <script type="text/javascript">   
@@ -69,11 +69,14 @@ for(var agindex=0; agindex < parent.arrayGroup.length-1; agindex++) {
 <form action="http://gb-cs.cs.unc.edu/calcutype/files/nev_frame_mirror.php" method="post" enctype="multipart/form-data" target="form">
 <table style="background-color: #cccc00; font-size: 150%;">
 <tr id="uploader"><td>
-<label for="file">Select the form you want to fill out</label>
+<span style="font-weight:bold; font-style:italic;">If using online version:</span>
+<label for="file">Select a form to fill out</label>
 <input type="file" name="form" id="form" />
-and press <input type="submit" name="submit" value="Submit" />
+and press <input type="submit" name="submit" onclick="setTimeout('parent.readyForm();', 4000);" value="Submit" />
 </td></tr>
-<tr id="loader"><td>Or, type the filename (including the filename extension) and select <img src="files/new-form.PNG" alt="open" height="20" />. <br />
+<tr id="loader"><td>
+<span style="font-weight:bold; font-style:italic;">If downloaded to your local computer:</span> 
+Type the filename (including extension) and select <img src="files/new-form.PNG" alt="open" height="20" />. <br />
 <input type="text" id="url" name="url" onkeydown="parent.keyPressed(event);" style="width:90%" />
 </td></tr>
 </table>
