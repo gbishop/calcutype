@@ -94,12 +94,13 @@ function writeToServer() {
 }
 
 function loadNewForm(newurl) {
-  typer.getElementById('loader').style.visibility="collapse";
   document.getElementById('form').src = newurl;
   setTimeout("readyForm();", 500);
 }
 
 function readyForm() {
+  typer.getElementById('loader').style.visibility = 'collapse';
+  typer.getElementById('uploader').style.visibility = 'collapse';
   typer = window.frames['typer'];
   frames['form'].document.body.onclick = function(event) {parent.keyPressed(null, -2);};
   textareas = frames['form'].document.getElementsByTagName('textarea');
@@ -166,8 +167,7 @@ function readyForm() {
 </head>
 <frameset cols = "40%,60%">
 <frame src = "jsinframe.html" name = "typer" id="typer" />
-<!-- <frame src = "about.html#typing" name = "form" id="form" /> -->
-<frame src = "files/uploading.html" name = "form" id="form" />
+<frame src = "about.html#typing" name = "form" id="form" />
 <noframes>
 <body>
 <h1><a href="jscalc.html">Click here to load the no-frames version of this program.</a></h1>
