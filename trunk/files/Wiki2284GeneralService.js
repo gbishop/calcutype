@@ -1,4 +1,4 @@
-/* Saved 3:29 PM 10/23/2008 from "
+/* Saved 3:29 PM 10/23/2008 from "http://simple.wiktionary.org/wiki/Wiktionary:General_Service_List"
 
 All contents licensed under the GNU Free Documentation License, available at "http://www.gnu.org/copyleft/fdl.html".
 
