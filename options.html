@@ -76,7 +76,7 @@ function processForm (form) {
   myURL = myURL + 'addi=' + CurrVar;
 
 
- document.getElementById("genURL").value = myURL;
+// document.getElementById("genURL").value = myURL;
  document.getElementById('newdoc').href = myURL;
  document.getElementById('frameset').href = myURL.replace("jscalc.html", "framebuilder.html");
  
@@ -147,7 +147,7 @@ function processKey(e)  {
 You can then either copy and paste the URL from the text box or click on the link "Click here after processing"
 to go directly to the typer page.  When you're at the typer page, you can bookmark that page (ctrl+d in Firefox or Internet Explorer) to save the options you selected.</p>
 <hr />
-<form action="" method="get">
+<form action="" method="get" id="thebigform">
 <table width="600" border="0" cellpadding="0" cellspacing="0">
 
 <tr><th colspan="2">Scanning</th></tr>
@@ -290,11 +290,8 @@ to go directly to the typer page.  When you're at the typer page, you can bookma
 <!--	-Which memory list
 	-User-specific words to add to the top of the memory list
 -->
-<p>
-<input name="button" value="Process form" onclick="processForm(this.form)" type="button" />
-After processing
-<img src="files/spacer.gif" width="130" height="1" alt="   " /><a id="newdoc" href="javascript:;">click here to write a new document</a>, or <a id="frameset" href="javascript:;">click here to fill out a form.</a><br />
-<input type="text" maxlength="1024" readonly="readonly" name="genURL" id="genURL" value="The URL will appear here" />
-</p>
+<h2>
+<a id="newdoc" href="javascript:;" onclick="processForm(document.getElementById('thebigform'))">Click here to write a new document</a>, or <a id="frameset" href="javascript:;" onclick="processForm(document.getElementById('thebigform'))">click here to fill out a form.</a><br />
+</h2>
 </form>
 </body></html>
