@@ -7,10 +7,30 @@ To enable console logging, add ?clog=true to the URL.
 */
 
 var gotomem = true; //Reset highlighting to memory row when word completion suggestions shown.
+var UseTwoSwitchTyping = true;
+var timerLength = 1000; //in milliseconds.
+var SWITCH1 = 221; //close bracket advances
+var SWITCH2 = 219; //open bracket selects
+var SWITCH3 = 220 // \ runs through memory
+ //Horray!  These are the same in Firefox and IE!
+ //(Incidentally, the arrow keys are, too.)
+var H_COL = "#cc6600";
+var TAREA_COL = "white";
+KEY_SIZE = 40;
+var use_rad = false;
+var precision = 3;
+var reset = true;
+var mem_lets = 4;
+var prevText = ""; var cursor = 0;  //These two variables are for IE support.
+var repeat = 1;  var alrepeat = repeat;  //the value it gets reset to.
+var overtype = true;
+var memkey = 0;
+var caplock = false;
+var shifted = false;  //says whether the shift key has last been pressed
 
 var clog = false;
 var digits = new Array('1','2','3','4','5','6','7','8','9','0');
-var operators = new Array('+','-','*','/','=', '(',')', '%', '&pi;');
+var operators = new Array('+','-','*','/','=', '^', '(',')', '%', '&pi;');
 var ABC = new Array(
   new Array('[&nbsp;]', 'A','B','C','D','E','F', 'G','H'),
   new Array('I','J','K','L','M', 'N','O','P','Q'),
@@ -222,6 +242,25 @@ function parse(oele) {
       ele = ele.replace('acos(', '(180/Math.PI)*Math.acos(');
       ele = ele.replace('atan(', '(180/Math.PI)*Math.atan(');
     }
+    var digits = "0123456789.()"
+    while(indexOf(ele, '^') != -1) {
+      for (var i = 0; i < ele.length; i ++) {
+        if(ele.charAt(i) == '^') {
+          var afore = i - 1;
+          while(indexOf(digits,ele.charAt(afore)) != -1 && !(afore<0)) {
+            afore = afore - 1;
+          }
+          if(clog) console.log("afore = " + afore + " " + ele.charAt(afore));
+          var after = i + 1;
+          while(indexOf(digits,ele.charAt(after)) != -1 && !(after > ele.length)) {
+            after++;
+          }
+          if(clog) console.log("after = " + after + " " + ele.charAt(after));
+          ele = (ele.substring(0,afore) + "Math.pow(" + ele.substring(afore, i) + "," + ele.substring(i+1, after) + ")" + ele.substring(after));
+          if(clog) console.log(ele);
+        }
+      }
+    }
     ele = ele.replace('ln(', 'Math.log(');
     ele = ele.replace('sqrt(', 'Math.sqrt(');
     var bfparen = /\d\(/;
@@ -230,6 +269,7 @@ function parse(oele) {
        va = ale.concat('*', ele.substring(ele.search(bfparen)+1));
        ele = va;
     }
+    if(clog) console.log("Final ele to eval(): " + ele);
     evaled = eval(ele);
     if(evaled === String(evaled)) //if it's a string
       return eval(oele);
@@ -275,14 +315,14 @@ function prediction() {
   try {
     var msol = solveEquation();  //Note that ssol is a string, eg "=5"
     var ssol = String(msol);
-    if(clog) console.log("msol=" + msol);
+//    if(clog) console.log("msol=" + msol);
     if(ssol != "=improper" && ssol != "=NaN" && ssol.indexOf("[") == -1) {
       oneSug = ssol;
       //overtype is now reset in solveEquation()
     }
   }
   catch(e) {  //This should never happen.
-    alert("Exception in solveEquation() caught by prediction().  Please contact the author of this program.  Details:\n" + e);
+    document.getElementById('caplock').innerHTML += ("<br />Error in solveEquation() caught by prediction().  Details:<br />" + e);
   }
   if(oneSug == "") {
     var currentWord = getCurrentWord().toLowerCase();
@@ -405,6 +445,10 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
   else if (letter.indexOf('shift.png') != -1) {
     shifted = !shifted;
   }
+  else if (letter == '[help') {
+    newwindow = window.open("about.html#typing",'CalcuType: help','height=600,width=600');
+  }
+
   else if (letter == '[store') {
      addToMemory(getCurrentWord());
   }
@@ -443,7 +487,7 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
     updateText(focused.value.replace(/\s/g, ' ').lastIndexOf(' ', cursor-2), myText);
   }
   else if(letter.indexOf('last.png') != -1)
-    updateText(focused.value.replace(/\s/g, ' ').indexOf(' ', cursor)+1, myText);
+    updateText((focused.value + ' ').replace(/\s/g, ' ').indexOf(' ', cursor)+1, myText);
   repeat = alrepeat;
   if (additionLength == 0) additionLength = addition.length;
   lastKeyChangedText = (additionLength != 0);
@@ -466,7 +510,7 @@ if(clog) console.log(letter + ' cursor at ' + cursor);
 */
 function solveEquation() {
   var returned;
-  if(!focused) {
+  if(!focused || focused == null) {
     addToMemory('unfocused!');
     return;
   }
@@ -531,6 +575,7 @@ function updateCursor() {
 
 /* Updates focused.value to match myText.  Also puts cursor at newcursor, if it doesn't equal null. */
 function updateText(newcursor, myText) {
+  focused.focus();
 if(clog) console.log("In updateText().  Mytext = " + myText);
   focused.value = myText;
   if(newcursor != null) {

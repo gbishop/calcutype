@@ -38,39 +38,16 @@ textarea { font-size: 30px;
 <!--
 var focused;
 var typer = document;
-var overtype = true;
-var memkey = 0;
-var caplock = false;
-var shifted = false;  //says whether the shift key has last been pressed
 var MAX_ARRAY_LENGTH = 10;
 var Alphabet = ABC;
-//var frequent = new Array(); //frequency table is imported from external file at top
-var repeat = 2;
 var currentIndex = 0; //start with first member of arrayGroup highlighted
+var intarea = false;
+var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
+var addi = new Array();
 
 //The keyboard row that's different...
 
 var funct = new Array('<img src="files/shift.png" alt="shift" />', '<img src="files/pilcrow.png" alt="&para;" />', '<img src="files/drive_disk.png" alt="save" />', '<img src="files/alpha.png" alt="cap" />', '<img src="files/backspace.png" alt="backspace" />','<img src="files/backspace_w.png" alt="backspace one word" />');
- var intarea = false;
-
-var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
-
-//Here comes everything from the options page, set to its default value...
-var UseTwoSwitchTyping = true;
-var timerLength = 1000; //in milliseconds.
-var SWITCH1 = 221; //close bracket advances
-var SWITCH2 = 219; //open bracket selects
-var SWITCH3 = 220 // \ runs through memory
- //Horray!  These are the same in Firefox and IE!  (Incidentally, the arrow keys are, too.)
-var H_COL = "#cc6600";
-var TAREA_COL = "white";
-if(document.body) var KEY_SIZE = document.body.clientWidth/31;
-else var KEY_SIZE = 40;
-var use_rad = true;
-var precision = 3;
-var addi = new Array();
-var reset = true;
-var mem_lets = 4;
 
 parseURL(location.href);
 if(addi.length < 7) { //make addi the memory
@@ -78,20 +55,11 @@ if(addi.length < 7) { //make addi the memory
   addi.push('[store');
   memory = addi;
 }
-/*
-for(var it = 0; it < addi.length; it++) {
-  if(addi[it] != "") {
-    arrayGroup.splice(arrayGroup.length-2, 0, addi);
-    break;
-  }
-}*/
 var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, memory);
 if(addi.length > 6) arrayGroup.splice(arrayGroup.length-2, 0, addi);
 
 var currentArray = arrayGroup;
 //Initialize arrayGroup after parsing the URL so we get the correct Alphabet.
-var alrepeat = repeat;  //the value it gets reset to.
-
 
 function writeToServer(text) {
   document.getElementById("theform").submit();

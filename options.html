@@ -55,7 +55,7 @@ function processForm (form) {
   CurrVar=form.H_COL.value; myURL = myURL + 'H_COL=' + CurrVar + '&';
   CurrVar=form.TAREA_COL.value; myURL = myURL + 'TAREA_COL=' + CurrVar + '&';
   CurrVar=form.KEY_SIZE.value; myURL = myURL + "KEY_SIZE=" + CurrVar + "&";
-  CurrVar=form.repeat.value; myURL = myURL + "repeat=" + CurrVar + "&";
+  CurrVar=form.repeat.value - 1; myURL = myURL + "repeat=" + CurrVar + "&";
   CurrVar=form.reset.checked; myURL = myURL + 'reset=' + CurrVar + '&';
   CurrVar=form.gotomem.checked; myURL = myURL + 'gotomem=' + CurrVar + '&';
   CurrVar=form.TEXT_SIZE.value; myURL = myURL + "TEXT_SIZE=" + CurrVar + "&";
@@ -214,9 +214,9 @@ function processKey(e)  {
 <tr><th colspan="2">Formatting of Text</th></tr>
 <tr>
 <td>Measure angles in:</td>
-<td>  <input name="use_rad" id="RAD" value="true" type="radio" checked="checked" />
+<td>  <input name="use_rad" id="RAD" value="true" type="radio" />
    <label for="RAD">Radians</label>
-<input name="use_rad" id="DEG" value="false" type="radio" />
+<input name="use_rad" id="DEG" value="false" type="radio"  checked="checked" />
   <label for="DEG">Degrees</label></td></tr>
 <tr>
 <td><label for="precision">Maximum number of decimal places to display</label></td>
@@ -243,7 +243,7 @@ function processKey(e)  {
 <tr><th colspan="2">Virtual Keyboard</th></tr>
 <tr>
 <td><label for="repeat">Number of times to repeat a row</label></td>
-<td>  <input name="repeat" id="repeat" value="3" type="text" /></td></tr>
+<td>  <input name="repeat" id="repeat" value="2" type="text" /></td></tr>
 <tr>
 <td colspan="2">  <input name="reset" id="reset" value="true" checked="checked" type="checkbox" />
   <label for="reset">Reset highlighting to beginning after selection</label></td></tr>
