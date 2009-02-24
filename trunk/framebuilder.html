@@ -11,20 +11,11 @@
 <script type="text/javascript" src="files/wiki570academicsupp.js"></script>
 <script type="text/javascript">
 <!--
-var overtype = true;
-var memkey = 0;
-var caplock = false;
-var shifted = false;  //says whether the shift key has last been pressed
 var MAX_ARRAY_LENGTH = 10;
-
 var focused;
 var textboxes = new Array();
 var typer;
-
-
 var Alphabet = ABC;
-//var frequent = new Array(); //frequency table is imported from external file at top
-var repeat = 2;
 var currentIndex = 0; //start with first member of arrayGroup highlighted
 
 var startLoaded = "about.html#typing"
@@ -32,29 +23,8 @@ var startLoaded = "about.html#typing"
 //The keyboard row that's different...
 var funct = new Array('<img src="files/shift.png" alt="shift" />', '<img src="files/tab.png" alt="tab" />', '<img src="files/pilcrow.png" alt="&para;" />', '<img src="files/new-form.PNG" alt="new" />', '<img src="files/drive_disk.png" alt="save" />', '<img src="files/alpha.png" alt="cap" />', '<img src="files/backspace.png" alt="backspace" />','<img src="files/backspace_w.png" alt="backspace one word" />');
 
-
-
 var NOW_SCANNING = true //I don't know why it'd ever be false, but it's here in case we need it!
-
-//These two variables are for IE support.
-var prevText = "";var cursor = 0;
-
-//Here comes everything from the options page, set to its default value...
-var UseTwoSwitchTyping = true;
-var timerLength = 1000; //in milliseconds.
-var SWITCH1 = 221; //close bracket advances
-var SWITCH2 = 219; //open bracket selects
-var SWITCH3 = 220 // \ runs through memory
- //Horray!  These are the same in Firefox and IE!
- //(Incidentally, the arrow keys are, too.)
-var H_COL = "#cc6600";
-var TAREA_COL = "white";
-KEY_SIZE = 40;
-var use_rad = true;
-var precision = 3;
 var addi = new Array();
-var reset = true;
-var mem_lets = 4;
 
 parseURL(location.href);
 var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, memory);
@@ -64,7 +34,6 @@ for(var it = 0; it < addi.length; it++) {
 }
 var currentArray = arrayGroup;
 //Initialize arrayGroup after parsing the URL so we get the correct Alphabet.
-var alrepeat = repeat;  //the value it gets reset to.
 
 function checkSize() {
   if (location.href.indexOf('KEY_SIZE') == -1) {
