@@ -85,8 +85,8 @@ function checkSize() {
 <p style="width: 55%; float: right; margin-top:60px;">
 <script type="text/javascript">
 <!--
-document.write('<textarea cols="31" rows="10" id="maintext" name="maintext" ');
-document.write(' style="font-size:' + KEY_SIZE + 'px;');
+document.write('<textarea id="maintext" name="maintext" cols="' + 1200/TEXT_SIZE + '" rows="' + 400/TEXT_SIZE);
+document.write('" style="font-size:' + TEXT_SIZE + 'px;');
 document.write(' background-color:' + TAREA_COL + ';"');
 document.write('onclick="killEvent(event);"></textarea>');
 //-->
