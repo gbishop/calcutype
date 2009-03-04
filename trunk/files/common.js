@@ -16,7 +16,8 @@ var SWITCH3 = 220 // \ runs through memory
  //(Incidentally, the arrow keys are, too.)
 var H_COL = "#cc6600";
 var TAREA_COL = "white";
-KEY_SIZE = 40;
+var KEY_SIZE = 40;
+var TEXT_SIZE = 30;
 var use_rad = false;
 var precision = 3;
 var reset = true;
