@@ -53,6 +53,9 @@ var punct = new Array('<img src="files/previous.png" alt="retreat one letter" />
  '<img src="files/first.png" alt="retreat one word" />', 
  '<img src="files/last.png" alt="advance one word" />', 
 '.', ',', '?', '"', '`', '!', ':', '$');
+var functionsa = new Array('sin(', 'cos(', 'tan(', 'ln(', 'log(', 'sqrt(');
+var functionsb = new Array('asin(', 'acos(', 'atan(');
+
 
 //These two variables are for IE support.
 var prevText = "";
@@ -102,6 +105,14 @@ alert("Exception!  Please contact the programmers!\n" + except + "\n" + indexOf(
   }
 }
 
+/* This is a recursive definition of factorial for any integer.  
+It is called at appropriate times from parse(oele). 
+*/
+function factorial(/*String or int*/ n) {
+  var nn = parseInt(n); //Note that parseInt of an Int returns the same Int.
+  if(nn < 2) return 1;
+  else return nn*factorial(nn-1);
+}
 
 /* This method is called when an option on the Memory row is selected.  If it is a word-completion suggestion, the beginning of the word is replaced. */
 function fromMemory(index) {
@@ -155,7 +166,9 @@ function highlight(number)  {
   if(currentArray == memory && cell.title != "") cell.firstChild.innerHTML = cell.title;
 }
 
-/* I can't believe JavaScript doesn't provide this functionality.  Well, I had to write it myself.  If it doesn't find the index, it returns -1, just like in Java. */
+/* I can't believe JavaScript doesn't provide this functionality.  Well, I had to write it myself.  
+If it doesn't find the index, it returns -1, just like in Java. 
+*/
 function indexOf(arr, elem) {
   for(var i = 0; i < arr.length; i++) {
     if (arr[i] == elem) {
@@ -227,7 +240,9 @@ function parse(oele) {
     var ele = oele;
     ele = ele.replace('π', Math.PI);
     ele = ele.replace('e', Math.exp(1));
-    if(use_rad == true) {
+	ele = ele.replace('E', '*10^');
+	if(clog) console.log(ele);
+    if(use_rad == true) {  //replace trig functions with inbuilt JS equivalents
       ele = ele.replace('sin(', 'Math.sin(');
       ele = ele.replace('cos(', 'Math.cos(');
       ele = ele.replace('tan(', 'Math.tan(');
@@ -235,7 +250,7 @@ function parse(oele) {
       ele = ele.replace('acos(', 'Math.acos(');
       ele = ele.replace('atan(', 'Math.atan(');
     }
-    else {
+    else {  //Same as above, except convert from degrees to radians
       ele = ele.replace('sin(', 'Math.sin((Math.PI/180)*');
       ele = ele.replace('cos(', 'Math.cos((Math.PI/180)*');
       ele = ele.replace('tan(', 'Math.tan((Math.PI/180)*');
@@ -243,26 +258,67 @@ function parse(oele) {
       ele = ele.replace('acos(', '(180/Math.PI)*Math.acos(');
       ele = ele.replace('atan(', '(180/Math.PI)*Math.atan(');
     }
-    var digits = "0123456789.()"
-    while(indexOf(ele, '^') != -1) {
+    /*
+	//Hyperbolic functions - to be done later.
+	sinh(x) = (e^x - e^-x )/2
+	cosh(x) = (e^x + e^-x )/2
+	tanh(x) = sinh(x)/cosh(x)
+	sech(x) = 1/cosh(x)
+	csch(x) = 1/sinh(x)
+	asinh(x) = ln(x+sqrt(x^2+1))
+	asinh(x) = ln(x+sqrt(x^2-1))
+	atanh(x) = .5*ln((1+x)/(1-x))
+	asech(x) = ln( (1+sqrt(1-x^2))/x)
+	acsch(x) = ln(1/x + sqrt(1+x^2)/Math.abs(x))
+	acoth(x) = .5*ln((x+1)/(x-1))
+    */
+	var digits = "0123456789.()"
+	//Loop to evaluate every power.
+    while(indexOf(ele, '^') != -1) { 
       for (var i = 0; i < ele.length; i ++) {
         if(ele.charAt(i) == '^') {
           var afore = i - 1;
-          while(indexOf(digits,ele.charAt(afore)) != -1 && !(afore<0)) {
+		  var inParen = 0;
+          while(!(afore<0)) {
+		    if(ele.charAt(afore) == ")") inParen++;
+			if(ele.charAt(afore) == "(") inParen--;
             afore = afore - 1;
+			if(indexOf(digits,ele.charAt(afore)) == -1 && inParen == 0) break;
           }
           if(clog) console.log("afore = " + afore + " " + ele.charAt(afore));
           var after = i + 1;
-          while(indexOf(digits,ele.charAt(after)) != -1 && !(after > ele.length)) {
+		  inParen = 0;
+          while(!(after > ele.length)) {
+		    if(ele.charAt(after) == ")") inParen++;
+			if(ele.charAt(after) == "(") inParen--;
             after++;
+			if(indexOf(digits,ele.charAt(after)) == -1 && inParen == 0) break;
           }
           if(clog) console.log("after = " + after + " " + ele.charAt(after));
-          ele = (ele.substring(0,afore) + "Math.pow(" + ele.substring(afore, i) + "," + ele.substring(i+1, after) + ")" + ele.substring(after));
+          ele = (ele.substring(0,afore+1) + "Math.pow(" + ele.substring(afore+1, i) + "," + ele.substring(i+1, after) + ")" + ele.substring(after));
           if(clog) console.log(ele);
         }
       }
     }
-    ele = ele.replace('ln(', 'Math.log(');
+	//Loop to evaluate every factorial.
+	while(indexOf(ele, '!') != -1) {
+	  var i = ele.indexOf('!');
+	  var afore = i-1;
+	  var inParen = 0;
+	  while(!(afore<0)) {
+        if(ele.charAt(afore) == ")") inParen++;
+        if(ele.charAt(afore) == "(") inParen--;
+        afore = afore - 1;
+		if(indexOf(digits,ele.charAt(afore)) == -1 && inParen == 0) break;
+      }
+	  if(clog) console.log("afore = " + afore + " " + ele.charAt(afore));
+      ele = (ele.substring(0,afore+1) + "factorial(" + ele.substring(afore+1, i) + ")" + ele.substring(i+1));
+      if(clog) console.log(ele);
+	}
+	
+    ele = ele.replace('ln(', 'Math.log(');  //Note that Math.log is natural logarithm.
+	ele = ele.replace('log(', '(1/Math.log(10))*Math.log(');  //default log is base 10
+	//I want to convert log(a,b) to (1/Math.log(b))*Math.log(, to allow any base, but it's too complicated
     ele = ele.replace('sqrt(', 'Math.sqrt(');
     var bfparen = /\d\(/;
     while(ele.search(bfparen) != -1) {//when a digit's next to parentheses, insert multiplication sign.
@@ -272,8 +328,10 @@ function parse(oele) {
     }
     if(clog) console.log("Final ele to eval(): " + ele);
     evaled = eval(ele);
-    if(evaled === String(evaled)) //if it's a string
+    if(evaled === String(evaled)) { //if it's a string
+	  if(clog) console.log("It's a string!");
       return eval(oele);
+	}
     else return evaled;
   }
   catch(except) {return "=improper";}

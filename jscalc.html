@@ -55,7 +55,7 @@ if(addi.length < 7) { //make addi the memory
   addi.push('[store');
   memory = addi;
 }
-var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, memory);
+var arrayGroup = new Array(Alphabet[0], Alphabet[1], Alphabet[2], digits, operators, funct, punct, functionsa, functionsb, memory);
 if(addi.length > 6) arrayGroup.splice(arrayGroup.length-2, 0, addi);
 
 var currentArray = arrayGroup;
@@ -69,7 +69,9 @@ function checkSize() {
   if (location.href.indexOf('KEY_SIZE') == -1) {
     var anchors = typer.getElementsByTagName('a');
     for(var i = 0; i < anchors.length; i++) {
-      anchors[i].style.fontSize = document.body.clientWidth/31 + 'px';
+	  if(anchors[i].innerHTML.indexOf('(') == -1 || anchors[i].innerHTML == '(') //if it's not a function
+        anchors[i].style.fontSize = document.body.clientWidth/31 + 'px';
+      else anchors[i].style.fontSize = .7* document.body.clientWidth/31 + 'px';
     }
   }
 }
@@ -94,7 +96,7 @@ document.write('onclick="killEvent(event);"></textarea>');
 </p>
 </form>
   <table class="data-table">
-<script type="text/javascript">   
+<script type="text/javascript">
 <!--
   var width = 1280;
   document.write('<tr id="cell-1' + indexOf(arrayGroup, memory) + '">');
@@ -114,8 +116,10 @@ document.write('onclick="killEvent(event);"></textarea>');
 for(var agindex=0; agindex < arrayGroup.length-1; agindex++) {
   document.write('<table class="data-table"><tr id="cell-1' + agindex + '">');
   for(var acol = 0; acol<arrayGroup[agindex].length; acol++) {
-    document.write('<td id="cell' + agindex + acol);
-    document.write('"><a onClick="selectletter(this.innerHTML);" href="javascript:;" id="anchor' + agindex + acol + '" style="font-size: '+ KEY_SIZE + 'px;">' + arrayGroup[agindex][acol] + '</a>');
+    document.write('<td id="cell' + agindex + acol + '" ');
+	if(arrayGroup[agindex] == functionsa || arrayGroup[agindex] == functionsb) { var ks = .7 * KEY_SIZE;}
+	else {var ks = KEY_SIZE;}
+    document.write('><a onClick="selectletter(this.innerHTML);" href="javascript:;" id="anchor' + agindex + acol + '" style="font-size: '+ ks + 'px;">' + arrayGroup[agindex][acol] + '</a>');
     document.write('<img src="files/spacer.GIF" width="' + width/85 + 'px" height="0px" /></td>');
   }
   document.write('</tr>');
