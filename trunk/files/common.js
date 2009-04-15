@@ -20,6 +20,7 @@ var KEY_SIZE = 40;
 var TEXT_SIZE = 30;
 var use_rad = false;
 var precision = 3;
+var SIG_FIGS = 5;
 var reset = true;
 var mem_lets = 4;
 var prevText = ""; var cursor = 0;  //These two variables are for IE support.
@@ -238,13 +239,13 @@ function killEvent(eventObject) {
 function parse(oele) {
   try {
     var ele = oele;
-    ele = ele.replace('π', Math.PI);
-    ele = ele.replace('e', Math.exp(1));
-	ele = ele.replace('E', '*10^');
+    ele = ele.replace('π'/g, Math.PI);
+    ele = ele.replace('e'/g, Math.exp(1));
+	ele = ele.replace('E'/g, '*10^');
 	if(clog) console.log(ele);
     if(use_rad == true) {  //replace trig functions with inbuilt JS equivalents
-      ele = ele.replace('sin(', 'Math.sin(');
-      ele = ele.replace('cos(', 'Math.cos(');
+      ele = ele.replace('sin('/g, 'Math.sin(');
+      ele = ele.replace('cos('/g, 'Math.cos(');
       ele = ele.replace('tan(', 'Math.tan(');
       ele = ele.replace('asin(', 'Math.asin(');
       ele = ele.replace('acos(', 'Math.acos(');
@@ -295,7 +296,7 @@ function parse(oele) {
 			if(indexOf(digits,ele.charAt(after)) == -1 && inParen == 0) break;
           }
           if(clog) console.log("after = " + after + " " + ele.charAt(after));
-          ele = (ele.substring(0,afore+1) + "Math.pow(" + ele.substring(afore+1, i) + "," + ele.substring(i+1, after) + ")" + ele.substring(after));
+          ele = (ele.substring(0,afore+1) + "Math.pow(" + ele.substring(afore+1, i) + "," + ele.substring(i+1, after+1) + ")" + ele.substring(after+1));
           if(clog) console.log(ele);
         }
       }
@@ -583,7 +584,9 @@ function solveEquation() {
     return returned;
 }
 
-/* Breaks myText up into individual words (at spaces and carriage returns; note it does NOT call getCurrentWord() ) and calls parse(oele) on each of them.  If parse(oele) returns a string (in other words, if it's a user-defined variable) it sets overtype to true; otherwise, it sets it to false and returns "=n" for n equal to a number or "NaN". */
+/* Breaks myText up into individual words (at spaces and carriage returns; note it does NOT call getCurrentWord() ) 
+and calls parse(oele) on each of them.  If parse(oele) returns a string (in other words, if it's a user-defined variable)
+ it sets overtype to true; otherwise, it sets it to false and returns "=n" for n equal to a number or "NaN". */
 function solveEquationMirror(myText) {
   var sameText = myText.replace(/\n/g, ' ');
   var k = sameText.split(' ');
@@ -599,7 +602,24 @@ function solveEquationMirror(myText) {
     return parsed;
   }
   else overtype = false;
-  return "=" + Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
+  if(String(parsed).indexOf("e") != -1) {
+    if (clog) console.log("Already in scinot.");
+	return "=" + Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
+  }
+  else if(parsed > Math.pow(10, SIG_FIGS)) {
+    var reduceBy = Math.floor((1/Math.log(10))*Math.log(parsed))+1 - SIG_FIGS;
+    var toDisplay = Math.round(parsed/Math.pow(10, reduceBy));
+    return toDisplay/Math.pow(10, Math.floor(1/Math.log(10)*Math.log(toDisplay))) + "E" +
+               (reduceBy+Math.floor(1/Math.log(10)*Math.log(toDisplay)));
+  }
+  else if(parsed < Math.pow(10, -SIG_FIGS)) {
+    var raiseBy = Math.abs(Math.floor((1/Math.log(10))*Math.log(parsed)))
+    var toDisplay = parsed*Math.pow(10, raiseBy);
+	toDisplay = Math.round(toDisplay*Math.pow(10,SIG_FIGS-1))/Math.pow(10,SIG_FIGS-1);
+	if(clog) console.log("ToDisplay: " + toDisplay);
+    return toDisplay/Math.pow(10, Math.floor(1/Math.log(10)*Math.log(toDisplay))) + "E-" + raiseBy;
+  }
+  else return "=" + Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
   //Note this last line returns NaN on anything except an actual number.
 }
 
