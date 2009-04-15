@@ -19,8 +19,8 @@ var TAREA_COL = "white";
 var KEY_SIZE = 40;
 var TEXT_SIZE = 30;
 var use_rad = false;
-var precision = 3;
-var SIG_FIGS = 5;
+var precision = 4;
+var SIG_FIGS = 4;
 var reset = true;
 var mem_lets = 4;
 var prevText = ""; var cursor = 0;  //These two variables are for IE support.
@@ -239,25 +239,25 @@ function killEvent(eventObject) {
 function parse(oele) {
   try {
     var ele = oele;
-    ele = ele.replace('π'/g, Math.PI);
-    ele = ele.replace('e'/g, Math.exp(1));
-	ele = ele.replace('E'/g, '*10^');
+    ele = ele.replace(/π/g, Math.PI);
+    ele = ele.replace(/e/g, Math.exp(1));
+	ele = ele.replace(/E/g, '*10^');
 	if(clog) console.log(ele);
     if(use_rad == true) {  //replace trig functions with inbuilt JS equivalents
-      ele = ele.replace('sin('/g, 'Math.sin(');
-      ele = ele.replace('cos('/g, 'Math.cos(');
-      ele = ele.replace('tan(', 'Math.tan(');
-      ele = ele.replace('asin(', 'Math.asin(');
-      ele = ele.replace('acos(', 'Math.acos(');
-      ele = ele.replace('atan(', 'Math.atan(');
+      ele = ele.replace(/sin\(/g, 'Math.sin(');
+      ele = ele.replace(/cos\(/g, 'Math.cos(');
+      ele = ele.replace(/tan\(/g, 'Math.tan(');
+      ele = ele.replace(/asin\(/g, 'Math.asin(');
+      ele = ele.replace(/acos\(/g, 'Math.acos(');
+      ele = ele.replace(/atan\(/g, 'Math.atan(');
     }
     else {  //Same as above, except convert from degrees to radians
-      ele = ele.replace('sin(', 'Math.sin((Math.PI/180)*');
-      ele = ele.replace('cos(', 'Math.cos((Math.PI/180)*');
-      ele = ele.replace('tan(', 'Math.tan((Math.PI/180)*');
-      ele = ele.replace('asin(', '(180/Math.PI)*Math.asin(');
-      ele = ele.replace('acos(', '(180/Math.PI)*Math.acos(');
-      ele = ele.replace('atan(', '(180/Math.PI)*Math.atan(');
+      ele = ele.replace(/sin\(/g, 'Math.sin((Math.PI/180)*');
+      ele = ele.replace(/cos\(/g, 'Math.cos((Math.PI/180)*');
+      ele = ele.replace(/tan\(/g, 'Math.tan((Math.PI/180)*');
+      ele = ele.replace(/asin\(/g, '(180/Math.PI)*Math.asin(');
+      ele = ele.replace(/acos\(/g, '(180/Math.PI)*Math.acos(');
+      ele = ele.replace(/atan\(/g, '(180/Math.PI)*Math.atan(');
     }
     /*
 	//Hyperbolic functions - to be done later.
@@ -317,10 +317,10 @@ function parse(oele) {
       if(clog) console.log(ele);
 	}
 	
-    ele = ele.replace('ln(', 'Math.log(');  //Note that Math.log is natural logarithm.
-	ele = ele.replace('log(', '(1/Math.log(10))*Math.log(');  //default log is base 10
+    ele = ele.replace(/ln\(/g, 'Math.log(');  //Note that Math.log is natural logarithm.
+	ele = ele.replace(/log\(/g, '(1/Math.log(10))*Math.log(');  //default log is base 10
 	//I want to convert log(a,b) to (1/Math.log(b))*Math.log(, to allow any base, but it's too complicated
-    ele = ele.replace('sqrt(', 'Math.sqrt(');
+    ele = ele.replace(/sqrt\(/g, 'Math.sqrt(');
     var bfparen = /\d\(/;
     while(ele.search(bfparen) != -1) {//when a digit's next to parentheses, insert multiplication sign.
       ale = ele.substring(0, ele.search(bfparen)+1);
