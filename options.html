@@ -51,6 +51,7 @@ function processForm (form) {
   }
   myURL = myURL + 'use_rad=' + CurrVar + '&';
   CurrVar=form.precision.value; myURL = myURL + 'precision=' + CurrVar + '&';
+  CurrVar=form.SIG_FIGS.value; myURL = myURL + 'SIG_FIGS=' + CurrVar + '&';
   CurrVar=form.mem_lets.value; myURL = myURL + 'mem_lets=' + CurrVar + '&';
   CurrVar=form.H_COL.value; myURL = myURL + 'H_COL=' + CurrVar + '&';
   CurrVar=form.TAREA_COL.value; myURL = myURL + 'TAREA_COL=' + CurrVar + '&';
@@ -221,6 +222,9 @@ function processKey(e)  {
 <tr>
 <td><label for="precision">Maximum number of decimal places to display</label></td>
 <td>  <input name="precision" id="precision" value="3" type="text" /></td></tr>
+<tr>
+<td><label for="SIG_FIGS">Smallest power of 10 displayed with scientific notation</label></td>
+<td>  <input name="SIG_FIGS" id="SIG_FIGS" value="5" type="text" /></td></tr>
 <tr>
 <td><label for="mem_lets">Number of letters to show in words stored in memory</label></td>
 <td>  <input name="mem_lets" id="mem_lets" value="4" type="text" /></td></tr>
