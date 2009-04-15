@@ -241,7 +241,6 @@ function parse(oele) {
     var ele = oele;
     ele = ele.replace(/π/g, Math.PI);
     ele = ele.replace(/e/g, Math.exp(1));
-	ele = ele.replace(/E/g, '*10^');
 	if(clog) console.log(ele);
     if(use_rad == true) {  //replace trig functions with inbuilt JS equivalents
       ele = ele.replace(/sin\(/g, 'Math.sin(');
@@ -274,36 +273,22 @@ function parse(oele) {
 	acoth(x) = .5*ln((x+1)/(x-1))
     */
 	var digits = "0123456789.()"
+	while(indexOf(ele, 'E') != -1) {
+		var i = ele.indexOf("E");
+		ele = toFunction(ele, i, "", "*10^");
+	}//ele = ele.replace(/E/g, '*10^');
 	//Loop to evaluate every power.
     while(indexOf(ele, '^') != -1) { 
       for (var i = 0; i < ele.length; i ++) {
         if(ele.charAt(i) == '^') {
-          var afore = i - 1;
-		  var inParen = 0;
-          while(!(afore<0)) {
-		    if(ele.charAt(afore) == ")") inParen++;
-			if(ele.charAt(afore) == "(") inParen--;
-            afore = afore - 1;
-			if(indexOf(digits,ele.charAt(afore)) == -1 && inParen == 0) break;
-          }
-          if(clog) console.log("afore = " + afore + " " + ele.charAt(afore));
-          var after = i + 1;
-		  inParen = 0;
-          while(!(after > ele.length)) {
-		    if(ele.charAt(after) == ")") inParen++;
-			if(ele.charAt(after) == "(") inParen--;
-            after++;
-			if(indexOf(digits,ele.charAt(after)) == -1 && inParen == 0) break;
-          }
-          if(clog) console.log("after = " + after + " " + ele.charAt(after));
-          ele = (ele.substring(0,afore+1) + "Math.pow(" + ele.substring(afore+1, i) + "," + ele.substring(i+1, after+1) + ")" + ele.substring(after+1));
-          if(clog) console.log(ele);
+			ele = toFunction(ele, i, "Math.pow");
         }
       }
     }
 	//Loop to evaluate every factorial.
 	while(indexOf(ele, '!') != -1) {
 	  var i = ele.indexOf('!');
+//	  ele = toFunction(ele, i, "factorial", "");  //doesn't work b/c factorial is after, not amid
 	  var afore = i-1;
 	  var inParen = 0;
 	  while(!(afore<0)) {
@@ -410,8 +395,7 @@ function prediction() {
   var toInsert = frequent[jj];
   var typedWord = getCurrentWord();
   //Code to specify capitalization of word.  Moved from fromMemory()
-  if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() 	//If first two letters caps, continue as all caps.
-           && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())
+  if(typedWord.charAt(0) == typedWord.charAt(0).toUpperCase() && typedWord.charAt(1) == typedWord.charAt(1).toUpperCase())//If first two letters caps, continue as all caps.
     toInsert = toInsert.toUpperCase();
   for(var k = 0; k < typedWord.length; k++) {
     var cL = typedWord.charAt(k);
@@ -621,6 +605,33 @@ function solveEquationMirror(myText) {
   }
   else return "=" + Math.round(parsed*Math.pow(10,precision))/Math.pow(10,precision);
   //Note this last line returns NaN on anything except an actual number.
+}
+
+/* This function converts from mid-notation (e.g. 5^3) to function notation
+(e.g. Math.pow(5,3) ).*/
+function toFunction(/*String*/ ele, /*int*/ i, /*String*/ functionName, /*String*/ divider) {
+	if(divider == null) divider =  ",";
+	var afore = i - 1;
+	var inParen = 0;
+	while(!(afore<0)) {
+		if(ele.charAt(afore) == ")") inParen++;
+		if(ele.charAt(afore) == "(") inParen--;
+		afore = afore - 1;
+		if(indexOf(digits,ele.charAt(afore)) == -1 && inParen == 0) break;
+	}
+	if(clog) console.log("afore = " + afore + " " + ele.charAt(afore));
+	var after = i + 1;
+	inParen = 0;
+	while(!(after > ele.length)) {
+		if(ele.charAt(after) == ")") inParen++;
+		if(ele.charAt(after) == "(") inParen--;
+		after++;
+		if(indexOf(digits,ele.charAt(after)) == -1 && inParen == 0) break;
+	}
+	if(clog) console.log("after = " + after + " " + ele.charAt(after));
+	ele = (ele.substring(0,afore+1) + functionName + "(" + ele.substring(afore+1, i) + divider + ele.substring(i+1, after) + ")" + ele.substring(after));
+	if(clog) console.log(ele);
+	return ele;
 }
 
 /* Simply unhighlights the proper spot on the virtual keyboard.  If it's in Memory, it compresses it to the first mem_lets letters.  (Note it does NOT do this on word-completion choices. */
