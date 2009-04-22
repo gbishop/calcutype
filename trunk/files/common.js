@@ -19,8 +19,8 @@ var TAREA_COL = "white";
 var KEY_SIZE = 40;
 var TEXT_SIZE = 30;
 var use_rad = false;
-var precision = 4;
-var SIG_FIGS = 4;
+var precision = 5;
+var SIG_FIGS = 5;
 var reset = true;
 var mem_lets = 4;
 var prevText = ""; var cursor = 0;  //These two variables are for IE support.
