@@ -672,6 +672,9 @@ function updateText(newcursor, myText) {
 			//FIREFOX support
 			focused.selectionStart = newcursor;
 			focused.selectionEnd = newcursor;
+			//Thanks to <http://lists.evolt.org/pipermail/javascript/2006-October/011435.html>
+			//for this next line, which scrolls the textarea.  It's done automatically in IE.
+			focused.scrollTop = focused.scrollHeight;
 		}
 		else {
 			//IE support - borrowed from 
