@@ -82,19 +82,23 @@ function checkSize() {
       else anchors[i].style.fontSize = .7* document.body.clientWidth/31 + 'px';
     }
   }
+  focused.cols = document.body.clientWidth/TEXT_SIZE;
+  focused.rows = document.body.clientHeight/TEXT_SIZE * 6/7;
 }
 //-->
 </script>
 </head>
 
-<body onkeydown="keyPressed(event);" onclick="keyPressed(null, -2);" onload="checkSize(); highlight(0); document.getElementById('maintext').focus(); focused = document.getElementById('maintext'); if(!UseTwoSwitchTyping) runTimer();">
-<p id="log"></p>
+<body onkeydown="keyPressed(event);" onclick="keyPressed(null, -2);" onload="highlight(0); document.getElementById('maintext').focus(); focused = document.getElementById('maintext'); checkSize(); if(!UseTwoSwitchTyping) runTimer();">
 
 <form action="http://gb-cs.cs.unc.edu/calcutype/files/plaintextmirror.php" id="theform" method="post">
 
-<p style="width: 55%; float: right; margin-top:60px;">
+<p style="position: fixed; top: 60px; right: 3px; bottom: 3px;">
+<!--float: right; margin-top:60px; -->
 <script type="text/javascript">
 <!--
+//if(indexOf(navigator.appVersion, "MSIE 6") != -1)
+
 document.write('<textarea id="maintext" name="maintext" cols="' + 1200/TEXT_SIZE + '" rows="' + 400/TEXT_SIZE);
 document.write('" style="font-size:' + TEXT_SIZE + 'px;');
 document.write(' background-color:' + TAREA_COL + ';"');
